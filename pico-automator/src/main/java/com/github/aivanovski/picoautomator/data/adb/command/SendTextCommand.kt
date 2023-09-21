@@ -3,7 +3,7 @@ package com.github.aivanovski.picoautomator.data.adb.command
 import com.github.aivanovski.picoautomator.data.adb.AdbEnvironment
 import com.github.aivanovski.picoautomator.domain.entity.Either
 
-class SendTextCommand(
+internal class SendTextCommand(
     private val text: String
 ) : AdbCommand<Unit> {
 

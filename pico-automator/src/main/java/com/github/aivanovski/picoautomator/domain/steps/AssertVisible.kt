@@ -1,16 +1,16 @@
 package com.github.aivanovski.picoautomator.domain.steps
 
 import com.github.aivanovski.picoautomator.data.adb.AdbExecutor
-import com.github.aivanovski.picoautomator.data.adb.command.GetUiDumpCommand
-import com.github.aivanovski.picoautomator.extensions.findNode
-import com.github.aivanovski.picoautomator.extensions.matches
+import com.github.aivanovski.picoautomator.data.adb.command.GetUiTreeCommand
 import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.domain.entity.ElementReference
+import com.github.aivanovski.picoautomator.extensions.findNode
+import com.github.aivanovski.picoautomator.extensions.matches
 
-class AssertVisible(
+internal class AssertVisible(
     private val parentElement: ElementReference?,
     private val elements: List<ElementReference>
-) : FlowStep, FlakyFlowStep {
+) : ExecutableFlowStep<Unit>, FlakyFlowStep {
 
     override fun describe(): String {
         return when {
@@ -23,12 +23,12 @@ class AssertVisible(
     }
 
     override fun execute(adbExecutor: AdbExecutor): Either<Exception, Unit> {
-        val getDumpResult = adbExecutor.execute(GetUiDumpCommand())
-        if (getDumpResult.isLeft()) {
-            return getDumpResult.mapToLeft()
+        val getUiTreeResult = adbExecutor.execute(GetUiTreeCommand())
+        if (getUiTreeResult.isLeft()) {
+            return getUiTreeResult.mapToLeft()
         }
 
-        val rootNote = getDumpResult.unwrap()
+        val rootNote = getUiTreeResult.unwrap()
 
         val nodeToLookup = if (parentElement == null) {
             rootNote

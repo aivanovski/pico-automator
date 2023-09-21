@@ -1,28 +1,28 @@
 package com.github.aivanovski.picoautomator.domain.steps
 
 import com.github.aivanovski.picoautomator.data.adb.AdbExecutor
-import com.github.aivanovski.picoautomator.data.adb.command.GetUiDumpCommand
+import com.github.aivanovski.picoautomator.data.adb.command.GetUiTreeCommand
 import com.github.aivanovski.picoautomator.data.adb.command.SendTapCommand
-import com.github.aivanovski.picoautomator.extensions.findNode
-import com.github.aivanovski.picoautomator.extensions.matches
 import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.domain.entity.ElementReference
+import com.github.aivanovski.picoautomator.extensions.findNode
+import com.github.aivanovski.picoautomator.extensions.matches
 
-class Tap(
+internal class Tap(
     private val element: ElementReference
-) : FlowStep, FlakyFlowStep {
+) : ExecutableFlowStep<Unit>, FlakyFlowStep {
 
     override fun describe(): String {
         return "Tap on element: $element"
     }
 
     override fun execute(adbExecutor: AdbExecutor): Either<Exception, Unit> {
-        val getDumpResult = adbExecutor.execute(GetUiDumpCommand())
-        if (getDumpResult.isLeft()) {
-            return getDumpResult.mapToLeft()
+        val getUiTreeResult = adbExecutor.execute(GetUiTreeCommand())
+        if (getUiTreeResult.isLeft()) {
+            return getUiTreeResult.mapToLeft()
         }
 
-        val rootNode = getDumpResult.unwrap()
+        val rootNode = getUiTreeResult.unwrap()
 
         val node = rootNode.findNode { node -> node.matches(element) }
             ?: return Either.Left(Exception("Unable to find node with: $element"))

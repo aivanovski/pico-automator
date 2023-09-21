@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlElement
 import javax.xml.bind.annotation.XmlRootElement
 
 @XmlRootElement(name = "hierarchy")
-class UiHierarchyEntity {
+internal class UiHierarchyEntity {
     @set:XmlAttribute(name = "rotation")
     var rotation: Int? = null
 

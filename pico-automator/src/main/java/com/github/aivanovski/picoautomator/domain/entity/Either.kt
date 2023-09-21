@@ -32,4 +32,12 @@ sealed class Either<out Error : Any?, out Value : Any?> {
             Right(value)
         }
     }
+
+    fun <NewValue> map(transform: (Value) -> NewValue): Either<Error, NewValue> {
+        return if (isRight()) {
+            Right(transform(unwrap()))
+        } else {
+            Left(unwrapError())
+        }
+    }
 }

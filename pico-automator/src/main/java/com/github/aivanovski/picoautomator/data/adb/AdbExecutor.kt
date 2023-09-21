@@ -3,7 +3,7 @@ package com.github.aivanovski.picoautomator.data.adb
 import com.github.aivanovski.picoautomator.data.adb.command.AdbCommand
 import com.github.aivanovski.picoautomator.domain.entity.Either
 
-class AdbExecutor(
+internal class AdbExecutor(
     private val environment: AdbEnvironment
 ) {
 

@@ -3,7 +3,7 @@ package com.github.aivanovski.picoautomator.data.adb.command
 import com.github.aivanovski.picoautomator.data.adb.AdbEnvironment
 import com.github.aivanovski.picoautomator.domain.entity.Either
 
-class StopApplicationCommand(
+internal class StopApplicationCommand(
     private val packageName: String
 ) : AdbCommand<Unit> {
 

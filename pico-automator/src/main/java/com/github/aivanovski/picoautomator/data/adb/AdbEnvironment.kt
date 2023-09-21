@@ -4,9 +4,9 @@ import com.github.aivanovski.picoautomator.data.process.ProcessExecutor
 import com.github.aivanovski.picoautomator.domain.entity.Device
 import com.github.aivanovski.picoautomator.domain.entity.Either
 
-class AdbEnvironment(
+internal class AdbEnvironment(
     private val processExecutor: ProcessExecutor,
-    val device: Device?,
+    val device: Device?
 ) {
 
     fun run(

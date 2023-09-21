@@ -1,14 +1,13 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    id("java-library")
-    id("maven-publish")
+    alias(libs.plugins.shadowjar)
     id("jacoco")
 }
 
-val appGroupId = "com.github.aivanovski"
-val appArtifactId = "pico-automator"
+val appGroupId = "com.github.aivanovski.cli"
 val appVersion = "0.0.1"
 
 group = appGroupId
@@ -23,9 +22,6 @@ tasks.withType<KotlinCompile> {
 }
 
 java {
-    withSourcesJar()
-    withJavadocJar()
-
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
@@ -47,25 +43,27 @@ tasks.test {
     finalizedBy("jacocoTestReport")
 }
 
+tasks {
+    named<ShadowJar>("shadowJar") {
+        archiveBaseName.set("pico-automator")
+        mergeServiceFiles()
+        manifest {
+            attributes(mapOf("Main-Class" to "com.github.aivanovski.picoautomator.cli.MainKt"))
+        }
+    }
+}
+
+tasks {
+    build {
+        dependsOn(shadowJar)
+    }
+}
+
 dependencies {
     testImplementation(libs.junit.engine)
     testImplementation(libs.kotest.runner)
     testImplementation(libs.kotest.assertions)
     testImplementation(libs.mockk)
 
-    implementation(libs.jaxb.api)
-    implementation(libs.jaxb.impl)
-    implementation(libs.jproc)
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = appGroupId
-            artifactId = appArtifactId
-            version = appVersion
-
-            from(components["java"])
-        }
-    }
+    implementation(project(":pico-automator"))
 }

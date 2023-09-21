@@ -1,6 +1,5 @@
 package com.github.aivanovski.picoautomator.domain.runner
 
-import com.github.aivanovski.picoautomator.domain.steps.FlakyFlowStep
 import com.github.aivanovski.picoautomator.data.adb.AdbEnvironment
 import com.github.aivanovski.picoautomator.data.adb.AdbExecutor
 import com.github.aivanovski.picoautomator.data.adb.command.GetDevicesCommand
@@ -11,10 +10,10 @@ import com.github.aivanovski.picoautomator.domain.entity.Flow
 import com.github.aivanovski.picoautomator.domain.steps.FlowStep
 
 class FlowRunner(
-    private val maxFlakyStepRepeatCount: Int = MAX_REPEAT_COUNT,
-    private val callbacks: FlowRunnerCallbacks? = null
+    private val maxFlakyStepRepeatCount: Int = MAX_REPEAT_COUNT
 ) {
 
+    private val listeners = mutableListOf<FlowLifecycleListener>()
     private val processExecutor = ProcessExecutor()
     private val adbExecutor = AdbExecutor(
         AdbEnvironment(
@@ -26,7 +25,7 @@ class FlowRunner(
     fun run(flow: Flow) {
         val selectDeviceResult = selectDevice()
         if (selectDeviceResult.isLeft()) {
-            callbacks?.onFlowFinished(flow, selectDeviceResult.mapToLeft())
+            listeners.forEach { it.onFlowFinished(flow, selectDeviceResult.mapToLeft()) }
             return
         }
 
@@ -37,73 +36,20 @@ class FlowRunner(
                 device = device
             )
         )
-        callbacks?.onDeviceSelected(device)
+        listeners.forEach { it.onDeviceSelected(device) }
 
-        val result = runInternal(
-            adbExecutor = adbDeviceExecutor,
+        ApiImpl(
             flow = flow,
-            isPredecessor = false
-        )
-
-        callbacks?.onFlowFinished(flow, result)
+            adbExecutor = adbDeviceExecutor,
+            maxFlakyStepRepeatCount = maxFlakyStepRepeatCount,
+            lifecycleListener = createFlowLifecycleListener()
+        ).run()
     }
 
-    private fun runInternal(
-        adbExecutor: AdbExecutor,
-        flow: Flow,
-        isPredecessor: Boolean
-    ): Either<Exception, Unit> {
-        if (isPredecessor) {
-            callbacks?.onFlowStarted(flow, isPredecessor)
+    fun addLifecycleListener(listener: FlowLifecycleListener) {
+        if (!listeners.contains(listener)) {
+            listeners.add(listener)
         }
-
-        if (flow.predecessors.isNotEmpty()) {
-            for (predecessor in flow.predecessors) {
-                val result = runInternal(
-                    adbExecutor = adbExecutor,
-                    flow = predecessor,
-                    isPredecessor = true
-                )
-                if (result.isLeft()) {
-                    return result
-                }
-            }
-        }
-
-        if (!isPredecessor) {
-            callbacks?.onFlowStarted(flow, isPredecessor)
-        }
-
-        var stepIndex = 0
-        var repeatCount = 0
-
-        while (stepIndex < flow.steps.size) {
-            val step = flow.steps[stepIndex]
-
-            callbacks?.onStepStarted(flow, step, repeatCount)
-
-            val result = step.execute(adbExecutor)
-
-            callbacks?.onStepFinished(flow, step, result)
-
-            when {
-                shouldRepeatStep(step, result, repeatCount) -> {
-                    repeatCount++
-                    continue
-                }
-
-                isFailed(result) -> {
-                    return result
-                }
-
-                else -> {
-                    stepIndex++
-                    repeatCount = 0
-                }
-            }
-        }
-
-        return Either.Right(Unit)
     }
 
     private fun selectDevice(): Either<Exception, Device> {
@@ -120,18 +66,38 @@ class FlowRunner(
         return Either.Right(devices.first())
     }
 
-    private fun shouldRepeatStep(
-        step: FlowStep,
-        result: Either<Exception, Unit>,
-        repeatCount: Int
-    ): Boolean {
-        return result.isLeft() &&
-            step is FlakyFlowStep &&
-            repeatCount < maxFlakyStepRepeatCount
-    }
+    private fun createFlowLifecycleListener(): FlowLifecycleListener {
+        return object : FlowLifecycleListener {
+            override fun onDeviceSelected(device: Device) {
+                listeners.forEach { it.onDeviceSelected(device) }
+            }
 
-    private fun isFailed(result: Either<Exception, Unit>): Boolean {
-        return result.isLeft()
+            override fun onFlowStarted(flow: Flow, isPredecessor: Boolean) {
+                listeners.forEach { it.onFlowStarted(flow, isPredecessor) }
+            }
+
+            override fun onFlowFinished(flow: Flow, result: Either<Exception, Any>) {
+                listeners.forEach { it.onFlowFinished(flow, result) }
+            }
+
+            override fun onStepStarted(
+                flow: Flow,
+                step: FlowStep,
+                stepIndex: Int,
+                repeatCount: Int
+            ) {
+                listeners.forEach { it.onStepStarted(flow, step, stepIndex, repeatCount) }
+            }
+
+            override fun onStepFinished(
+                flow: Flow,
+                step: FlowStep,
+                stepIndex: Int,
+                result: Either<Exception, Any>
+            ) {
+                listeners.forEach { it.onStepFinished(flow, step, stepIndex, result) }
+            }
+        }
     }
 
     companion object {

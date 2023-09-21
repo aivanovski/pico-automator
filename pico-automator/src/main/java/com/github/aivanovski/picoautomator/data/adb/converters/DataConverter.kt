@@ -2,19 +2,19 @@ package com.github.aivanovski.picoautomator.data.adb.converters
 
 import com.github.aivanovski.picoautomator.data.adb.entity.UiNodeEntity
 import com.github.aivanovski.picoautomator.domain.entity.Bounds
-import com.github.aivanovski.picoautomator.domain.entity.UiNode
+import com.github.aivanovski.picoautomator.domain.entity.UiTreeNode
 import com.github.aivanovski.picoautomator.util.isDigitOnly
 import java.util.LinkedList
 
-fun UiNodeEntity.convertToUiNode(): UiNode {
-    val next = LinkedList<Pair<UiNode?, UiNodeEntity>>()
+internal fun UiNodeEntity.convertToUiNode(): UiTreeNode {
+    val next = LinkedList<Pair<UiTreeNode?, UiNodeEntity>>()
     next.add(Pair(null, this))
 
-    var root: UiNode? = null
+    var root: UiTreeNode? = null
     while (next.isNotEmpty()) {
         val (parent, node) = next.removeFirst()
 
-        val newNode = UiNode(
+        val newNode = UiTreeNode(
             resourceId = node.resourceId,
             text = node.text,
             className = node.className,

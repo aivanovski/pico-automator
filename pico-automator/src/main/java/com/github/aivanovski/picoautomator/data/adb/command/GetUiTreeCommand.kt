@@ -2,17 +2,17 @@ package com.github.aivanovski.picoautomator.data.adb.command
 
 import com.github.aivanovski.picoautomator.data.adb.AdbEnvironment
 import com.github.aivanovski.picoautomator.data.adb.converters.convertToUiNode
-import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.data.adb.entity.UiHierarchyEntity
 import com.github.aivanovski.picoautomator.data.adb.entity.UiNodeEntity
-import com.github.aivanovski.picoautomator.domain.entity.UiNode
+import com.github.aivanovski.picoautomator.domain.entity.Either
+import com.github.aivanovski.picoautomator.domain.entity.UiTreeNode
 import java.io.ByteArrayInputStream
 import javax.xml.bind.JAXBContext
 import javax.xml.bind.JAXBException
 
-class GetUiDumpCommand : AdbCommand<UiNode> {
+internal class GetUiTreeCommand : AdbCommand<UiTreeNode> {
 
-    override fun execute(environment: AdbEnvironment): Either<Exception, UiNode> {
+    override fun execute(environment: AdbEnvironment): Either<Exception, UiTreeNode> {
         val getDumpResult = getDumpFile(environment)
         if (getDumpResult.isLeft()) {
             return getDumpResult.mapToLeft()
@@ -21,7 +21,7 @@ class GetUiDumpCommand : AdbCommand<UiNode> {
         return parseDumpFile(getDumpResult.unwrap())
     }
 
-    private fun parseDumpFile(content: String): Either<Exception, UiNode> {
+    private fun parseDumpFile(content: String): Either<Exception, UiTreeNode> {
         return try {
             val data = JAXBContext.newInstance(UiHierarchyEntity::class.java)
                 .createUnmarshaller()
@@ -39,16 +39,35 @@ class GetUiDumpCommand : AdbCommand<UiNode> {
     }
 
     private fun getDumpFile(environment: AdbEnvironment): Either<Exception, String> {
-        val dumpResult = environment.run("shell uiautomator dump")
-        if (dumpResult.isLeft()) {
-            return dumpResult.mapToLeft()
-        }
+        val attemptRange = 1..MAX_RETRY_COUNT
+        for (attemptIdx in attemptRange) {
+            val dumpResult = environment.run("shell uiautomator dump")
+            if (dumpResult.isLeft()) {
+                return dumpResult.mapToLeft()
+            }
 
-        val dumpMessage = dumpResult.unwrap()
-        if (!dumpMessage.contains("dumped to")) {
-            return Either.Left(Exception("Unable to dump UI: $dumpMessage"))
+            val dumpMessage = dumpResult.unwrap()
+            when {
+                attemptIdx < attemptRange.last && dumpMessage.isEmpty() -> {
+                    // TODO: move to logging
+                    println("Get UI dump again")
+                    continue
+                }
+
+                dumpMessage.contains("dumped to") -> {
+                    break
+                }
+
+                else -> {
+                    return Either.Left(Exception("Unable to dump UI: $dumpMessage"))
+                }
+            }
         }
 
         return environment.run("shell cat /sdcard/window_dump.xml")
+    }
+
+    companion object {
+        private const val MAX_RETRY_COUNT = 3
     }
 }

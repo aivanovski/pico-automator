@@ -1,30 +1,23 @@
 package com.github.aivanovski.picoautomator.extensions
 
 import com.github.aivanovski.picoautomator.domain.entity.ElementReference
-import com.github.aivanovski.picoautomator.domain.entity.UiNode
+import com.github.aivanovski.picoautomator.domain.entity.UiTreeNode
 import java.util.LinkedList
 
-fun UiNode.matches(element: ElementReference): Boolean {
+internal fun UiTreeNode.matches(element: ElementReference): Boolean {
     return when (element) {
         is ElementReference.Id -> this.resourceId == "$packageName:id/${element.id}"
         is ElementReference.Text -> this.text == element.text
-    }
-}
-
-fun UiNode.findNode(predicate: (UiNode) -> Boolean): UiNode? {
-    for (node in this.nodes) {
-        val matched = node.traverse(predicate).firstOrNull()
-        if (matched != null) {
-            return matched
+        is ElementReference.ContainsText -> {
+            this.text != null && this.text.contains(element.text, ignoreCase = element.ignoreCase)
         }
     }
-    return null
 }
 
-fun UiNode.traverse(predicate: (UiNode) -> Boolean): List<UiNode> {
-    val result = mutableListOf<UiNode>()
+internal fun UiTreeNode.traverse(predicate: (UiTreeNode) -> Boolean): List<UiTreeNode> {
+    val result = mutableListOf<UiTreeNode>()
 
-    val nodes = LinkedList<UiNode>()
+    val nodes = LinkedList<UiTreeNode>()
     nodes.addAll(this.nodes)
 
     while (nodes.isNotEmpty()) {
@@ -40,4 +33,19 @@ fun UiNode.traverse(predicate: (UiNode) -> Boolean): List<UiNode> {
     }
 
     return result
+}
+
+fun UiTreeNode.findNode(predicate: (UiTreeNode) -> Boolean): UiTreeNode? {
+    for (node in this.nodes) {
+        val matched = node.traverse(predicate).firstOrNull()
+        if (matched != null) {
+            return matched
+        }
+    }
+    return null
+}
+
+fun UiTreeNode.hasElement(element: ElementReference): Boolean {
+    val matchedNodes = this.traverse { node -> node.matches(element) }
+    return matchedNodes.isNotEmpty()
 }

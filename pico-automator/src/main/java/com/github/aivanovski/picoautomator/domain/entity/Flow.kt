@@ -1,10 +1,8 @@
 package com.github.aivanovski.picoautomator.domain.entity
 
-import com.github.aivanovski.picoautomator.domain.steps.FlowStep
+import com.github.aivanovski.picoautomator.PicoAutomatorApi
 
-data class Flow(
+class Flow(
     val name: String,
-    val packageName: String,
-    val predecessors: List<Flow>,
-    val steps: List<FlowStep>
+    val content: PicoAutomatorApi.() -> Unit
 )

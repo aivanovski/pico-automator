@@ -4,9 +4,9 @@ import com.github.aivanovski.picoautomator.data.adb.AdbExecutor
 import com.github.aivanovski.picoautomator.data.adb.command.SendTextCommand
 import com.github.aivanovski.picoautomator.domain.entity.Either
 
-class InputText(
+internal class InputText(
     private val text: String
-) : FlowStep {
+) : ExecutableFlowStep<Unit> {
 
     override fun describe(): String {
         return "Input text: $text"

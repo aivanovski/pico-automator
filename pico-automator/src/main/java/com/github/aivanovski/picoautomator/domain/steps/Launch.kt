@@ -5,9 +5,9 @@ import com.github.aivanovski.picoautomator.data.adb.command.StartApplicationComm
 import com.github.aivanovski.picoautomator.data.adb.command.StopApplicationCommand
 import com.github.aivanovski.picoautomator.domain.entity.Either
 
-class Launch(
+internal class Launch(
     private val packageName: String
-) : FlowStep {
+) : ExecutableFlowStep<Unit> {
 
     override fun describe(): String {
         return "Launch app: $packageName"

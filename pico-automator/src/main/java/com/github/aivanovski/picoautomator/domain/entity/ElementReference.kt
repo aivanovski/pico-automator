@@ -14,8 +14,18 @@ sealed class ElementReference {
         }
     }
 
+    data class ContainsText(
+        val text: String,
+        val ignoreCase: Boolean = true
+    ) : ElementReference() {
+        override fun toString(): String {
+            return "has text = $text"
+        }
+    }
+
     companion object {
         fun id(id: String): Id = Id(id)
         fun text(text: String): Text = Text(text)
+        fun containsText(text: String) = ContainsText(text)
     }
 }

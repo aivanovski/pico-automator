@@ -1,6 +1,6 @@
 package com.github.aivanovski.picoautomator.presentation
 
-class DefaultOutputWriter : OutputWriter {
+class StandardOutputWriter : OutputWriter {
 
     override fun print(text: String) {
         kotlin.io.print(text)

@@ -3,12 +3,12 @@ package com.github.aivanovski.picoautomator.presentation
 import com.github.aivanovski.picoautomator.domain.entity.Device
 import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.domain.entity.Flow
-import com.github.aivanovski.picoautomator.domain.runner.FlowRunnerCallbacks
+import com.github.aivanovski.picoautomator.domain.runner.FlowLifecycleListener
 import com.github.aivanovski.picoautomator.domain.steps.FlowStep
 
-class FlowPresenter(
+class StandardOutputFlowReporter(
     private val output: OutputWriter
-) : FlowRunnerCallbacks {
+) : FlowLifecycleListener {
 
     override fun onDeviceSelected(device: Device) {
         output.println("Select device: ${device.id}")
@@ -22,28 +22,37 @@ class FlowPresenter(
         }
     }
 
-    override fun onFlowFinished(flow: Flow, result: Either<Exception, Unit>) {
+    override fun onFlowFinished(flow: Flow, result: Either<Exception, Any>) {
         if (result.isRight()) {
-            output.println("Finished successfully")
+            val data = result.unwrap()
+            if (data is String) {
+                output.println("Flow '${flow.name}' finished successfully: $data")
+            } else {
+                output.println("Flow '${flow.name}' finished successfully")
+            }
         } else {
             val exception = result.unwrapError()
-            output.println("Failed: ${exception.message ?: exception.javaClass.simpleName}")
+            output.println(
+                "Flow '${flow.name}' failed: ${exception.message ?: exception.javaClass.simpleName}"
+            )
             output.printStackTrace(exception)
         }
     }
 
-    override fun onStepStarted(flow: Flow, step: FlowStep, repeatCount: Int) {
-        val stepIndex = flow.steps.indexOf(step) + 1
-        val stepCount = flow.steps.size
-
+    override fun onStepStarted(flow: Flow, step: FlowStep, stepIndex: Int, repeatCount: Int) {
         if (repeatCount == 0) {
-            output.print("Step $stepIndex/$stepCount: ${step.describe()}")
+            output.print("Step ${stepIndex + 1}: ${step.describe()}")
         } else {
-            output.print("Repeat $stepIndex/$stepCount: ${step.describe()}")
+            output.print("Repeat ${stepIndex + 1}: ${step.describe()}")
         }
     }
 
-    override fun onStepFinished(flow: Flow, step: FlowStep, result: Either<Exception, Unit>) {
+    override fun onStepFinished(
+        flow: Flow,
+        step: FlowStep,
+        stepIndex: Int,
+        result: Either<Exception, Any>
+    ) {
         val resultMessage = if (result.isLeft()) "FAILED" else "SUCCESS"
         output.println(" - $resultMessage")
     }

@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlElement
 import javax.xml.bind.annotation.XmlRootElement
 
 @XmlRootElement(name = "node")
-class UiNodeEntity {
+internal class UiNodeEntity {
     @set:XmlAttribute(name = "resource-id", required = false)
     var resourceId: String? = null
 

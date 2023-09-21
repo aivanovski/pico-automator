@@ -5,7 +5,7 @@ import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.domain.entity.Flow
 import com.github.aivanovski.picoautomator.domain.steps.FlowStep
 
-interface FlowRunnerCallbacks {
+interface FlowLifecycleListener {
 
     fun onDeviceSelected(
         device: Device
@@ -20,13 +20,14 @@ interface FlowRunnerCallbacks {
 
     fun onFlowFinished(
         flow: Flow,
-        result: Either<Exception, Unit>
+        result: Either<Exception, Any>
     ) {
     }
 
     fun onStepStarted(
         flow: Flow,
         step: FlowStep,
+        stepIndex: Int,
         repeatCount: Int
     ) {
     }
@@ -34,7 +35,8 @@ interface FlowRunnerCallbacks {
     fun onStepFinished(
         flow: Flow,
         step: FlowStep,
-        result: Either<Exception, Unit>
+        stepIndex: Int,
+        result: Either<Exception, Any>
     ) {
     }
 }
