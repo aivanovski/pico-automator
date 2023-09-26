@@ -64,11 +64,11 @@ jobs:
           distribution: 'zulu'
           java-version: 11
 
-      - name: Build debug jar
+      - name: Build jar
         run: ./gradlew pico-automator:assemble
 
   create-coverage-badge:
-    needs: [ create-artifacts-bundle ]
+    needs: [ build-jar ]
     name: 'Create coverage badge'
     runs-on: ubuntu-latest
     steps:
