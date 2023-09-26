@@ -8,7 +8,11 @@ internal class StopApplicationCommand(
 ) : AdbCommand<Unit> {
 
     override fun execute(environment: AdbEnvironment): Either<Exception, Unit> {
-        return environment.run("shell am force-stop $packageName")
+        return environment.run(String.format(COMMAND, packageName))
             .mapWith(Unit)
+    }
+
+    companion object {
+        internal const val COMMAND = "shell am force-stop %s"
     }
 }
