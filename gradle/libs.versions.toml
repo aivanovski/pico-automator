@@ -1,0 +1,19 @@
+[versions]
+kotlin = "1.8.22"
+jaxb = "2.3.3"
+kotest = "5.5.2"
+junit = "5.5.2"
+mockk = "1.12.3"
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+shadowjar = { id = "com.github.johnrengelman.shadow", version = "7.0.0" }
+
+[libraries]
+kotest-assertions = { module = "io.kotest:kotest-assertions-core-jvm", version.ref = "kotest" }
+kotest-runner = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "kotest" }
+junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+jproc = { module = "org.buildobjects:jproc", version = "2.8.0" }
+jaxb-api = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version.ref = "jaxb" }
+jaxb-impl = { module = "org.glassfish.jaxb:jaxb-runtime", version.ref = "jaxb" }
