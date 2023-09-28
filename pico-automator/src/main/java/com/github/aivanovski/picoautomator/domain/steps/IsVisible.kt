@@ -3,6 +3,7 @@ package com.github.aivanovski.picoautomator.domain.steps
 import com.github.aivanovski.picoautomator.data.adb.AdbExecutor
 import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.domain.entity.ElementReference
+import com.github.aivanovski.picoautomator.extensions.toReadableFormat
 
 internal class IsVisible(
     private val parentElement: ElementReference?,
@@ -12,10 +13,14 @@ internal class IsVisible(
     override fun describe(): String {
         return when {
             parentElement != null -> {
-                "Is visible: inside [$parentElement] -> $elements"
+                String.format(
+                    "Is visible: inside [%s] -> %s",
+                    parentElement.toReadableFormat(),
+                    elements.toReadableFormat()
+                )
             }
 
-            else -> "Is visible: $elements"
+            else -> "Is visible: ${elements.toReadableFormat()}"
         }
     }
 

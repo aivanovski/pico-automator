@@ -71,8 +71,21 @@ internal class ApiImpl(
     }
 
     override fun inputText(text: String): Either<Exception, Unit> {
-        val step = InputText(text = text)
-        return runStep(step)
+        return runStep(
+            InputText(
+                text = text,
+                element = null
+            )
+        )
+    }
+
+    override fun inputText(element: ElementReference, text: String): Either<Exception, Unit> {
+        return runStep(
+            InputText(
+                text = text,
+                element = element
+            )
+        )
     }
 
     override fun isVisible(element: ElementReference): Boolean {
@@ -108,7 +121,7 @@ internal class ApiImpl(
         )
     }
 
-    override fun wait(duration: Duration): Either<Exception, Unit> {
+    override fun delay(duration: Duration): Either<Exception, Unit> {
         return runStep(Wait(duration))
     }
 

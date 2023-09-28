@@ -16,7 +16,7 @@ internal class WaitForElement(
     override fun describe(): String {
         return String.format(
             "Wait for element: %s, timeout = %s, step = %s",
-            element,
+            element.toReadableFormat(),
             timeout.toReadableFormat(),
             step.toReadableFormat()
         )

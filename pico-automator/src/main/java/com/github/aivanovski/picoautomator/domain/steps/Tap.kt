@@ -7,13 +7,14 @@ import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.domain.entity.ElementReference
 import com.github.aivanovski.picoautomator.extensions.findNode
 import com.github.aivanovski.picoautomator.extensions.matches
+import com.github.aivanovski.picoautomator.extensions.toReadableFormat
 
 internal class Tap(
     private val element: ElementReference
 ) : ExecutableFlowStep<Unit>, FlakyFlowStep {
 
     override fun describe(): String {
-        return "Tap on element: $element"
+        return "Tap on element: ${element.toReadableFormat()}"
     }
 
     override fun execute(adbExecutor: AdbExecutor): Either<Exception, Unit> {

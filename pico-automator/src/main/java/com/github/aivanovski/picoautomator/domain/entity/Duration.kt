@@ -6,7 +6,11 @@ sealed class Duration(open val milliseconds: Long) {
     data class Milliseconds(override val milliseconds: Long) : Duration(milliseconds)
 
     companion object {
+
+        @JvmStatic
         fun millis(milliseconds: Int) = Milliseconds(milliseconds.toLong())
+
+        @JvmStatic
         fun seconds(seconds: Int) = Seconds(seconds)
     }
 }

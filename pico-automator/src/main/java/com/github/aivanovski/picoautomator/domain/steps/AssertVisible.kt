@@ -6,6 +6,7 @@ import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.domain.entity.ElementReference
 import com.github.aivanovski.picoautomator.extensions.findNode
 import com.github.aivanovski.picoautomator.extensions.matches
+import com.github.aivanovski.picoautomator.extensions.toReadableFormat
 
 internal class AssertVisible(
     private val parentElement: ElementReference?,
@@ -15,10 +16,14 @@ internal class AssertVisible(
     override fun describe(): String {
         return when {
             parentElement != null -> {
-                "Assert is visible: inside [$parentElement] -> $elements"
+                String.format(
+                    "Assert is visible: inside [%s] -> %s",
+                    parentElement.toReadableFormat(),
+                    elements.toReadableFormat()
+                )
             }
 
-            else -> "Assert is visible: $elements"
+            else -> "Assert is visible: ${elements.toReadableFormat()}"
         }
     }
 
