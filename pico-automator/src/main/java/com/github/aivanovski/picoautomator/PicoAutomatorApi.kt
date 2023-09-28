@@ -10,6 +10,7 @@ interface PicoAutomatorApi {
     fun assertVisible(element: ElementReference): Either<Exception, Unit>
     fun tapOn(element: ElementReference): Either<Exception, Unit>
     fun inputText(text: String): Either<Exception, Unit>
+    fun inputText(element: ElementReference, text: String): Either<Exception, Unit>
     fun isVisible(element: ElementReference): Boolean
     fun getUiTree(): UiTreeNode
 
@@ -24,7 +25,7 @@ interface PicoAutomatorApi {
         step: Duration
     ): Either<Exception, Unit>
 
-    fun wait(duration: Duration): Either<Exception, Unit>
+    fun delay(duration: Duration): Either<Exception, Unit>
     fun fail(message: String)
     fun complete(message: String)
 }

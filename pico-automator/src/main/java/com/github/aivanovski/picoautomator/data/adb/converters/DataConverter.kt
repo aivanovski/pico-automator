@@ -20,6 +20,7 @@ internal fun UiNodeEntity.convertToUiNode(): UiTreeNode {
             className = node.className,
             packageName = node.packageName,
             bounds = node.bounds?.let { parseBounds(it) },
+            isFocused = node.isFocused,
             nodes = mutableListOf()
         )
 

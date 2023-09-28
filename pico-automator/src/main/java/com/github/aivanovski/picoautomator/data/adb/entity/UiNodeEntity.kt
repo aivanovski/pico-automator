@@ -21,6 +21,9 @@ internal class UiNodeEntity {
     @set:XmlAttribute(name = "text", required = false)
     var text: String? = null
 
+    @set:XmlAttribute(name = "focused", required = false)
+    var isFocused: Boolean? = null
+
     @set:XmlElement(name = "node", required = false)
     var nodes: List<UiNodeEntity> = mutableListOf()
 }
