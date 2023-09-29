@@ -16,9 +16,9 @@ internal class InputText(
 
     override fun describe(): String {
         return if (element != null) {
-            "Input text: $text into ${element.toReadableFormat()}"
+            "Input text: [$text] into ${element.toReadableFormat()}"
         } else {
-            "Input text: $text"
+            "Input text: [$text]"
         }
     }
 

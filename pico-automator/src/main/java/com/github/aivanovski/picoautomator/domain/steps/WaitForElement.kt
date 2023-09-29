@@ -26,9 +26,9 @@ internal class WaitForElement(
         val startTime = System.currentTimeMillis()
 
         while ((System.currentTimeMillis() - startTime) <= timeout.milliseconds) {
-            val waitResult = Wait(step).execute(adbExecutor)
-            if (waitResult.isLeft()) {
-                return waitResult.mapToLeft()
+            val sleepResult = Sleep(step).execute(adbExecutor)
+            if (sleepResult.isLeft()) {
+                return sleepResult.mapToLeft()
             }
 
             val getUiTreeResult = GetUiTree().execute(adbExecutor)
