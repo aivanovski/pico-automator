@@ -99,10 +99,19 @@ internal class StartApplicationCommand(
         packageName: String,
         activities: List<ActivityComponent>
     ): ActivityComponent? {
-        return activities.filter { activity ->
+        val nonLibraryActivities = activities.filter { activity ->
             !activity.activityName.startsWith("android")
         }
-            .firstOrNull()
+
+        val startedWithPackageActivities = nonLibraryActivities.filter { activity ->
+            val prefix = activity.activityName.commonPrefixWith(packageName)
+            prefix.isNotEmpty()
+        }
+        if (startedWithPackageActivities.isNotEmpty()) {
+            return startedWithPackageActivities.firstOrNull()
+        }
+
+        return nonLibraryActivities.firstOrNull()
     }
 
     data class ActivityComponent(
