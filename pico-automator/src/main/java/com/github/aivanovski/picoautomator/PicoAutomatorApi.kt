@@ -25,7 +25,7 @@ interface PicoAutomatorApi {
         step: Duration
     ): Either<Exception, Unit>
 
-    fun delay(duration: Duration): Either<Exception, Unit>
+    fun sleep(duration: Duration): Either<Exception, Unit>
     fun fail(message: String)
     fun complete(message: String)
 }

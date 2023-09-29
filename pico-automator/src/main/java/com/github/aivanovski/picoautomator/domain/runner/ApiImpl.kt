@@ -19,8 +19,8 @@ import com.github.aivanovski.picoautomator.domain.steps.GetUiTree
 import com.github.aivanovski.picoautomator.domain.steps.InputText
 import com.github.aivanovski.picoautomator.domain.steps.IsVisible
 import com.github.aivanovski.picoautomator.domain.steps.Launch
+import com.github.aivanovski.picoautomator.domain.steps.Sleep
 import com.github.aivanovski.picoautomator.domain.steps.Tap
-import com.github.aivanovski.picoautomator.domain.steps.Wait
 import com.github.aivanovski.picoautomator.domain.steps.WaitForElement
 
 internal class ApiImpl(
@@ -121,8 +121,8 @@ internal class ApiImpl(
         )
     }
 
-    override fun delay(duration: Duration): Either<Exception, Unit> {
-        return runStep(Wait(duration))
+    override fun sleep(duration: Duration): Either<Exception, Unit> {
+        return runStep(Sleep(duration))
     }
 
     override fun fail(message: String) {
