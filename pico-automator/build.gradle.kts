@@ -9,7 +9,7 @@ plugins {
 
 val appGroupId = "com.github.aivanovski"
 val appArtifactId = "pico-automator"
-val appVersion = "0.0.2"
+val appVersion = "0.0.3"
 
 group = appGroupId
 version = appVersion
