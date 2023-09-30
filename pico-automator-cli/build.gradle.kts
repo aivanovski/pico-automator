@@ -8,7 +8,7 @@ plugins {
 }
 
 val appGroupId = "com.github.aivanovski.cli"
-val appVersion = "0.0.3"
+val appVersion = "0.0.4"
 
 group = appGroupId
 version = appVersion
