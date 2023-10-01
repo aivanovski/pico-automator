@@ -1,0 +1,3 @@
+[submodule "pico-automator-clojure"]
+	path = pico-automator-clojure
+	url = git@github:aivanovski/pico-automator-clojure.git
