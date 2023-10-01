@@ -3,7 +3,7 @@
  :mvn/repos {"maven-central" {:url "https://repo1.maven.org/maven2"}
              "jitpack" {:url "https://jitpack.io/"}}
 
- :deps {io.github.aivanovski/pico-automator-clojure {:git/tag "0.0.4" :git/sha "8657e859"}}
+ :deps {com.github.aivanovski/pico-automator-clojure {:git/tag "0.0.4" :git/sha "8657e859"}}
 
  :aliases
  {:nrepl {:extra-deps {nrepl/nrepl {:mvn/version "0.9.0"}
