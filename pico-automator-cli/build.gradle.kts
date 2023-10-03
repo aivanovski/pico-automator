@@ -8,10 +8,10 @@ plugins {
 }
 
 val appGroupId = "com.github.aivanovski.cli"
-val appVersion = "0.0.4"
 
 group = appGroupId
-version = appVersion
+version = libs.versions.appVersion
+
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {

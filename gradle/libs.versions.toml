@@ -1,4 +1,6 @@
 [versions]
+appVersion = "0.0.5"
+
 kotlinVersion = "1.8.22"
 kotestVersion = "5.5.2"
 junitVersion = "5.5.2"
