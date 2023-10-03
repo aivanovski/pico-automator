@@ -9,10 +9,9 @@ plugins {
 
 val appGroupId = "com.github.aivanovski"
 val appArtifactId = "pico-automator"
-val appVersion = "0.0.4"
 
 group = appGroupId
-version = appVersion
+version = libs.versions.appVersion
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
@@ -61,7 +60,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = appGroupId
             artifactId = appArtifactId
-            version = appVersion
+            version = libs.versions.appVersion.get()
 
             from(components["java"])
         }
