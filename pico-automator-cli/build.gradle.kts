@@ -12,7 +12,6 @@ val appGroupId = "com.github.aivanovski.cli"
 group = appGroupId
 version = libs.versions.appVersion
 
-
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         apiVersion = "1.5"
