@@ -53,8 +53,6 @@ dependencies {
     testImplementation(libs.kotest.assertions)
     testImplementation(libs.mockk)
 
-    implementation(libs.jaxb.api)
-    implementation(libs.jaxb.impl)
     implementation(libs.jproc)
 }
 

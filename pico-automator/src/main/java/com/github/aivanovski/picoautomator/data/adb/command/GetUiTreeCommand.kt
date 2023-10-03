@@ -2,13 +2,15 @@ package com.github.aivanovski.picoautomator.data.adb.command
 
 import com.github.aivanovski.picoautomator.data.adb.AdbEnvironment
 import com.github.aivanovski.picoautomator.data.adb.converters.convertToUiNode
-import com.github.aivanovski.picoautomator.data.adb.entity.UiHierarchyEntity
 import com.github.aivanovski.picoautomator.data.adb.entity.UiNodeEntity
 import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.domain.entity.UiTreeNode
-import java.io.ByteArrayInputStream
-import javax.xml.bind.JAXBContext
-import javax.xml.bind.JAXBException
+import java.io.StringReader
+import javax.xml.parsers.SAXParserFactory
+import org.xml.sax.Attributes
+import org.xml.sax.InputSource
+import org.xml.sax.SAXException
+import org.xml.sax.helpers.DefaultHandler
 
 internal class GetUiTreeCommand : AdbCommand<UiTreeNode> {
 
@@ -23,17 +25,16 @@ internal class GetUiTreeCommand : AdbCommand<UiTreeNode> {
 
     private fun parseDumpFile(content: String): Either<Exception, UiTreeNode> {
         return try {
-            val data = JAXBContext.newInstance(UiHierarchyEntity::class.java)
-                .createUnmarshaller()
-                .unmarshal(ByteArrayInputStream(content.toByteArray())) as UiHierarchyEntity
+            val parser = SAXParserFactory.newInstance().newSAXParser()
+            val handler = UiHierarchyHandler()
 
-            val root = UiNodeEntity()
-                .apply {
-                    nodes = data.nodes
-                }
+            parser.parse(InputSource(StringReader(content)), handler)
+
+            val root = handler.root
+                ?: return Either.Left(Exception("Unable to parse UI dump"))
 
             Either.Right(root.convertToUiNode())
-        } catch (exception: JAXBException) {
+        } catch (exception: SAXException) {
             Either.Left(exception)
         }
     }
@@ -65,6 +66,48 @@ internal class GetUiTreeCommand : AdbCommand<UiTreeNode> {
         }
 
         return environment.run("shell cat /sdcard/window_dump.xml")
+    }
+
+    class UiHierarchyHandler : DefaultHandler() {
+
+        var root: UiNodeEntity? = null
+
+        private var currentNode: UiNodeEntity? = null
+        private val stack = mutableListOf<UiNodeEntity>()
+
+        override fun startElement(
+            uri: String?,
+            localName: String?,
+            qName: String?,
+            attributes: Attributes?
+        ) {
+            val node = UiNodeEntity()
+
+            node.resourceId = attributes?.getValue("resource-id")
+            node.className = attributes?.getValue("class")
+            node.packageName = attributes?.getValue("package")
+            node.text = attributes?.getValue("text")
+            node.isFocused = attributes?.getValue("focused")?.toBoolean() ?: false
+            node.bounds = attributes?.getValue("bounds")
+
+            if (stack.isEmpty()) {
+                root = node
+            } else {
+                currentNode = node
+                stack.last().nodes.add(node)
+            }
+
+            stack.add(node)
+        }
+
+        override fun endElement(uri: String?, localName: String?, qName: String?) {
+            stack.removeLast()
+            currentNode = if (stack.isEmpty()) {
+                null
+            } else {
+                stack.last()
+            }
+        }
     }
 
     companion object {
