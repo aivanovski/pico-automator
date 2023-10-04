@@ -127,9 +127,9 @@ class RunTestUseCase(
             endIdx++
         }
 
-        if (startIdx >= namespace.length
-            || endIdx > namespace.length
-            || endIdx <= startIdx
+        if (startIdx >= namespace.length ||
+            endIdx > namespace.length ||
+            endIdx <= startIdx
         ) {
             return null
         }
@@ -190,7 +190,7 @@ class RunTestUseCase(
     companion object {
         private const val NAMESPACE_DECLARATION = "(ns"
         private val NAMESPACE_STOP_CHARACTERS = setOf(
-            ' ', '\n', '\r', '\t', '(', ')', '[', ']', '{', '}', ':',
+            ' ', '\n', '\r', '\t', '(', ')', '[', ']', '{', '}', ':'
         )
     }
 }

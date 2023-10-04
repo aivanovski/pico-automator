@@ -37,7 +37,6 @@ class ArgumentParser(
                         )
                     }
                 }
-
             } else {
                 val checkPathResult = checkPath(arg)
                 if (checkPathResult.isLeft()) {
