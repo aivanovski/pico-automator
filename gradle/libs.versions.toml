@@ -6,6 +6,8 @@ kotestVersion = "5.5.2"
 junitVersion = "5.5.2"
 mockkVersion = "1.12.3"
 jprocVersion = "2.8.0"
+koinVersion = "3.1.5"
+clojureVersion = "1.11.1"
 shadowJarVersion = "7.0.0"
 
 [plugins]
@@ -18,3 +20,5 @@ kotest-runner = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junitVersion" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
 jproc = { module = "org.buildobjects:jproc", version.ref = "jprocVersion" }
+clojure = { module = "org.clojure:clojure", version.ref = "clojureVersion" }
+koin = { module = "io.insert-koin:koin-core", version.ref = "koinVersion" }
