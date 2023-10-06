@@ -6,6 +6,7 @@ internal class UiNodeEntity {
     var className: String? = null
     var bounds: String? = null
     var text: String? = null
+    var contentDescription: String? = null
     var isFocused: Boolean? = null
     var nodes: MutableList<UiNodeEntity> = mutableListOf()
 }

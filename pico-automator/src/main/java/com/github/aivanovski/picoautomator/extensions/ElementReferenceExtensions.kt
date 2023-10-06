@@ -7,6 +7,7 @@ fun ElementReference.toReadableFormat(): String {
         is ElementReference.Id -> "[id = $id]"
         is ElementReference.Text -> "[text = $text]"
         is ElementReference.ContainsText -> "[has text = $text]"
+        is ElementReference.ContentDescription -> "[desc = $contentDescription]"
     }
 }
 

@@ -19,6 +19,8 @@ import com.github.aivanovski.picoautomator.domain.steps.GetUiTree
 import com.github.aivanovski.picoautomator.domain.steps.InputText
 import com.github.aivanovski.picoautomator.domain.steps.IsVisible
 import com.github.aivanovski.picoautomator.domain.steps.Launch
+import com.github.aivanovski.picoautomator.domain.steps.PressBack
+import com.github.aivanovski.picoautomator.domain.steps.PressKey
 import com.github.aivanovski.picoautomator.domain.steps.Sleep
 import com.github.aivanovski.picoautomator.domain.steps.Tap
 import com.github.aivanovski.picoautomator.domain.steps.WaitForElement
@@ -53,21 +55,22 @@ internal class ApiImpl(
     }
 
     override fun launch(packageName: String): Either<Exception, Unit> {
-        val step = Launch(packageName)
-        return runStep(step)
+        return runStep(Launch(packageName))
     }
 
-    override fun assertVisible(element: ElementReference): Either<Exception, Unit> {
-        val step = AssertVisible(
-            parentElement = null,
-            elements = listOf(element)
+    override fun assertVisible(vararg elements: ElementReference): Either<Exception, Unit> {
+        return runStep(
+            AssertVisible(
+                parentElement = null,
+                elements = elements.toList()
+            )
         )
-        return runStep(step)
     }
 
     override fun tapOn(element: ElementReference): Either<Exception, Unit> {
-        val step = Tap(element = element)
-        return runStep(step)
+        return runStep(
+            Tap(element = element)
+        )
     }
 
     override fun inputText(text: String): Either<Exception, Unit> {
@@ -88,26 +91,35 @@ internal class ApiImpl(
         )
     }
 
+    override fun pressBack(): Either<Exception, Unit> {
+        return runStep(PressBack())
+    }
+
+    override fun pressKey(keyCode: String): Either<Exception, Unit> {
+        return runStep(PressKey(keyCode))
+    }
+
     override fun isVisible(element: ElementReference): Boolean {
-        val step = IsVisible(
-            parentElement = null,
-            elements = listOf(element)
-        )
-        return runStep(step).isRight()
+        return runStep(
+            IsVisible(
+                parentElement = null,
+                elements = listOf(element)
+            )
+        ).isRight()
     }
 
     override fun getUiTree(): UiTreeNode {
         return runStep(GetUiTree()).unwrap()
     }
 
-    override fun waitFor(
+    override fun waitUntil(
         element: ElementReference,
         timeout: Duration
     ): Either<Exception, Unit> {
-        return waitFor(element, timeout, step = millis(1000))
+        return waitUntil(element, timeout, step = millis(1000))
     }
 
-    override fun waitFor(
+    override fun waitUntil(
         element: ElementReference,
         timeout: Duration,
         step: Duration

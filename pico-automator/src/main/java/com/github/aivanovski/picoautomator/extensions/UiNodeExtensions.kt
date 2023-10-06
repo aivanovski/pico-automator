@@ -11,6 +11,9 @@ internal fun UiTreeNode.matches(element: ElementReference): Boolean {
         is ElementReference.ContainsText -> {
             this.text != null && this.text.contains(element.text, ignoreCase = element.ignoreCase)
         }
+        is ElementReference.ContentDescription -> {
+            this.contentDescription == element.contentDescription
+        }
     }
 }
 
