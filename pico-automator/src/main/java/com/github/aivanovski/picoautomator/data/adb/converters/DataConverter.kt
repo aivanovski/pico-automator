@@ -17,6 +17,7 @@ internal fun UiNodeEntity.convertToUiNode(): UiTreeNode {
         val newNode = UiTreeNode(
             resourceId = node.resourceId,
             text = node.text,
+            contentDescription = node.contentDescription,
             className = node.className,
             packageName = node.packageName,
             bounds = node.bounds?.let { parseBounds(it) },

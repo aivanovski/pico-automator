@@ -87,6 +87,7 @@ internal class GetUiTreeCommand : AdbCommand<UiTreeNode> {
             node.className = attributes?.getValue("class")
             node.packageName = attributes?.getValue("package")
             node.text = attributes?.getValue("text")
+            node.contentDescription = attributes?.getValue("content-desc")
             node.isFocused = attributes?.getValue("focused")?.toBoolean() ?: false
             node.bounds = attributes?.getValue("bounds")
 

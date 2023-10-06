@@ -7,19 +7,21 @@ import com.github.aivanovski.picoautomator.domain.entity.UiTreeNode
 
 interface PicoAutomatorApi {
     fun launch(packageName: String): Either<Exception, Unit>
-    fun assertVisible(element: ElementReference): Either<Exception, Unit>
+    fun assertVisible(vararg elements: ElementReference): Either<Exception, Unit>
     fun tapOn(element: ElementReference): Either<Exception, Unit>
     fun inputText(text: String): Either<Exception, Unit>
     fun inputText(element: ElementReference, text: String): Either<Exception, Unit>
+    fun pressBack(): Either<Exception, Unit>
+    fun pressKey(keyCode: String): Either<Exception, Unit>
     fun isVisible(element: ElementReference): Boolean
     fun getUiTree(): UiTreeNode
 
-    fun waitFor(
+    fun waitUntil(
         element: ElementReference,
         timeout: Duration
     ): Either<Exception, Unit>
 
-    fun waitFor(
+    fun waitUntil(
         element: ElementReference,
         timeout: Duration,
         step: Duration

@@ -16,9 +16,9 @@ class StandardOutputFlowReporter(
 
     override fun onFlowStarted(flow: Flow, isPredecessor: Boolean) {
         if (isPredecessor) {
-            output.println("Run predecessor flow: ${flow.name}")
+            output.println("Start predecessor flow '${flow.name}'")
         } else {
-            output.println("Run flow: ${flow.name}")
+            output.println("Start flow '${flow.name}'")
         }
     }
 
@@ -43,7 +43,7 @@ class StandardOutputFlowReporter(
         if (repeatCount == 0) {
             output.print("Step ${stepIndex + 1}: ${step.describe()}")
         } else {
-            output.print("Repeat ${stepIndex + 1}: ${step.describe()}")
+            output.print("Retry ${stepIndex + 1}: ${step.describe()}")
         }
     }
 

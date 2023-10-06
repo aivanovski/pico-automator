@@ -6,6 +6,7 @@ data class UiTreeNode(
     val className: String?,
     val bounds: Bounds?,
     val text: String?,
+    val contentDescription: String?,
     val isFocused: Boolean?,
     val nodes: MutableList<UiTreeNode>
 )
