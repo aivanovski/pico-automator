@@ -7,7 +7,8 @@ import com.github.aivanovski.picoautomator.domain.entity.UiTreeNode
 
 interface PicoAutomatorApi {
     fun launch(packageName: String): Either<Exception, Unit>
-    fun assertVisible(vararg elements: ElementReference): Either<Exception, Unit>
+    fun assertVisible(element: ElementReference): Either<Exception, Unit>
+    fun assertVisible(elements: List<ElementReference>): Either<Exception, Unit>
     fun tapOn(element: ElementReference): Either<Exception, Unit>
     fun inputText(text: String): Either<Exception, Unit>
     fun inputText(element: ElementReference, text: String): Either<Exception, Unit>

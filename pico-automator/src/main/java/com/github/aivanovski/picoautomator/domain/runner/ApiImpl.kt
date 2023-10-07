@@ -58,11 +58,20 @@ internal class ApiImpl(
         return runStep(Launch(packageName))
     }
 
-    override fun assertVisible(vararg elements: ElementReference): Either<Exception, Unit> {
+    override fun assertVisible(elements: List<ElementReference>): Either<Exception, Unit> {
         return runStep(
             AssertVisible(
                 parentElement = null,
-                elements = elements.toList()
+                elements = elements
+            )
+        )
+    }
+
+    override fun assertVisible(element: ElementReference): Either<Exception, Unit> {
+        return runStep(
+            AssertVisible(
+                parentElement = null,
+                elements = listOf(element)
             )
         )
     }
