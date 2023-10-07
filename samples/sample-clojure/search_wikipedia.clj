@@ -9,7 +9,7 @@
     (fn [automator]
       (-> automator
           (launch "org.wikipedia")
-          (wait-for {:text "Search"} {:seconds 10} {:millis 1000})
+          (wait-until {:text "Search"} {:seconds 10} {:millis 1000})
           (tap-on {:text "Search"})
           (tap-on {:text "Search Wikipedia"})
           (input-text "Dunning" {:text "Search Wikipedia"})
