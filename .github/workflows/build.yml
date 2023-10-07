@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: 'true'
 
       - name: Validate versions
         run: |
@@ -32,6 +34,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: 'true'
 
       - name: Download ktlint binary
         run: |
@@ -47,6 +51,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: 'true'
 
       - name: Set up JDK 11
         uses: actions/setup-java@v3
@@ -70,6 +76,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: 'true'
 
       - name: Setup version variable
         run: |
@@ -101,6 +109,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: 'true'
 
       - name: Get coverage.csv
         uses: actions/download-artifact@v3
