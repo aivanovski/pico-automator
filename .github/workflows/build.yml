@@ -9,8 +9,8 @@ on:
       - main
 
 jobs:
-  validate-versions:
-    name: Validate versions
+  validate-properties:
+    name: Validate 'version.properties'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,7 +22,7 @@ jobs:
           PROPERTIES_VERSION=$(grep 'version=' pico-automator-cli/src/main/resources/version.properties | cut -d= -f2)
 
           if [ "$TOML_VERSION" != "$PROPERTIES_VERSION" ]; then
-            echo "Versions in 'libs.versions.toml' don't match with 'version.properties'"
+            echo "Versions in 'libs.versions.toml' doesn't match with 'version.properties'"
             exit 1
           fi
 
@@ -65,7 +65,7 @@ jobs:
 
   build-jar:
     name: 'Build jar'
-    needs: [ check-code-style, run-tests, validate-versions ]
+    needs: [ check-code-style, run-tests, validate-properties ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
