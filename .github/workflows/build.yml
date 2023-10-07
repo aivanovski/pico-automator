@@ -65,7 +65,17 @@ jobs:
           java-version: 11
 
       - name: Build jar
-        run: ./gradlew pico-automator:assemble
+        run: ./gradlew shadowJar
+
+      - name: Rename jar file
+        run: |
+          mv pico-automator-cli/build/libs/pico-automator-cli-${{env.VERSION}}-all.jar pico-automator.jar
+
+      - name: Store jar file
+        uses: actions/upload-artifact@v3
+        with:
+          name: pico-automator.jar
+          path: pico-automator.jar
 
   create-coverage-badge:
     needs: [ build-jar ]
