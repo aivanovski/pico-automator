@@ -43,6 +43,8 @@ class RunTestUseCase(
         }
 
         val utils = readUtilsResult.unwrap()
+            .replace("(print-stack-trace exception)", "(.printStackTrace exception)")
+
         val core = readCoreResult.unwrap()
 
         return try {

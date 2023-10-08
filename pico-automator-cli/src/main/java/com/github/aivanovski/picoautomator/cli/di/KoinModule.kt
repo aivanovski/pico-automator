@@ -4,6 +4,7 @@ import com.github.aivanovski.picoautomator.cli.data.filesystem.FileProvider
 import com.github.aivanovski.picoautomator.cli.data.filesystem.FileProviderImpl
 import com.github.aivanovski.picoautomator.cli.data.resource.ResourceProvider
 import com.github.aivanovski.picoautomator.cli.data.resource.ResourceProviderImpl
+import com.github.aivanovski.picoautomator.cli.domain.ErrorHandler
 import com.github.aivanovski.picoautomator.cli.domain.MainInteractor
 import com.github.aivanovski.picoautomator.cli.domain.argument.ArgumentParser
 import com.github.aivanovski.picoautomator.cli.domain.usecases.GetVersionUseCase
@@ -19,12 +20,13 @@ object KoinModule {
         single<ResourceProvider> { ResourceProviderImpl() }
         single { ArgumentParser(get()) }
         single<OutputWriter> { StandardOutputWriter() }
+        single { ErrorHandler(get()) }
 
         // use cases
         single { GetVersionUseCase(get()) }
         single { PrintHelpUseCase(get()) }
         single { RunTestUseCase(get(), get()) }
 
-        single { MainInteractor(get(), get(), get(), get()) }
+        single { MainInteractor(get(), get(), get(), get(), get()) }
     }
 }

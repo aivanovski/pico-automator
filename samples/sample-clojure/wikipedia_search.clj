@@ -1,15 +1,15 @@
-(ns search-wikipedia
-    (:require [picoautomator.core :refer :all]))
+(ns wikipedia-search
+  (:require [picoautomator.core :refer :all]))
 
 (defn -main
   [& args]
 
   (start-flow
-    "Search Wikipedia Flow"
+    "Search Wikipedia"
     (fn [automator]
       (-> automator
           (launch "org.wikipedia")
-          (wait-for {:text "Search"} {:seconds 10} {:millis 1000})
+          (assert-visible {:text "Search"})
           (tap-on {:text "Search"})
           (tap-on {:text "Search Wikipedia"})
           (input-text "Dunning" {:text "Search Wikipedia"})
