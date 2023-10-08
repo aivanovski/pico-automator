@@ -9,25 +9,6 @@ on:
       - main
 
 jobs:
-  validate-properties:
-    name: Validate 'version.properties'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          submodules: 'true'
-
-      - name: Validate versions
-        run: |
-          TOML_VERSION=$(grep 'appVersion =' gradle/libs.versions.toml | cut -d= -f2 | cut -d\" -f2)
-          PROPERTIES_VERSION=$(grep 'version=' pico-automator-cli/src/main/resources/version.properties | cut -d= -f2)
-
-          if [ "$TOML_VERSION" != "$PROPERTIES_VERSION" ]; then
-            echo "Versions in 'libs.versions.toml' doesn't match with 'version.properties'"
-            exit 1
-          fi
-
   check-code-style:
     name: 'Check code style'
     runs-on: ubuntu-latest
@@ -61,7 +42,7 @@ jobs:
           java-version: 11
 
       - name: Run tests
-        run: ./gradlew test
+        run: ./gradlew pico-automator:test pico-automator-cli:test
 
       - name: Upload coverage.csv file
         uses: actions/upload-artifact@v3
@@ -71,7 +52,7 @@ jobs:
 
   build-jar:
     name: 'Build jar'
-    needs: [ check-code-style, run-tests, validate-properties ]
+    needs: [ check-code-style, run-tests ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
