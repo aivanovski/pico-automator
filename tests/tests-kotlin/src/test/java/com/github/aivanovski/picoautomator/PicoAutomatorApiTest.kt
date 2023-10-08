@@ -68,7 +68,7 @@ class PicoAutomatorApiTest {
                     id("main_view_pager"),
                     contentDesc("More"),
                     text("Explore"),
-                    containsText("Wikipedia"),
+                    containsText("Wikipedia")
                 )
             )
         }

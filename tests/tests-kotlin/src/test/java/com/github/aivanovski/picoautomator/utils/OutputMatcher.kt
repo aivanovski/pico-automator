@@ -176,6 +176,5 @@ object OutputMatcher {
             val name: String,
             val isSuccess: Boolean
         ) : Line()
-
     }
 }
