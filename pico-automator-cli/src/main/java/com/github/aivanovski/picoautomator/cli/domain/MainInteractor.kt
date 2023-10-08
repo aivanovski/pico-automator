@@ -10,6 +10,7 @@ class MainInteractor(
     private val argumentParser: ArgumentParser,
     private val printHelpUseCase: PrintHelpUseCase,
     private val runTestUseCase: RunTestUseCase,
+    private val errorHandler: ErrorHandler,
     private val writer: OutputWriter
 ) {
 
@@ -28,7 +29,7 @@ class MainInteractor(
         for (file in args.files) {
             val result = runTestUseCase.run(file)
             if (result.isLeft()) {
-                return result.mapToLeft()
+                errorHandler.processIfLeft(result)
             }
         }
 

@@ -27,6 +27,6 @@ object KoinModule {
         single { PrintHelpUseCase(get()) }
         single { RunTestUseCase(get(), get()) }
 
-        single { MainInteractor(get(), get(), get(), get()) }
+        single { MainInteractor(get(), get(), get(), get(), get()) }
     }
 }
