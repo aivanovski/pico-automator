@@ -9,7 +9,7 @@
     (fn [automator]
       (-> automator
           (launch "org.wikipedia")
-          (assert-visible {:text "More"})
-          (tap-on {:text "More"})
+          (assert-visible {:content-desc "More"})
+          (tap-on {:content-desc "More"})
           (tap-on {:text "Settings"})
           (assert-visible {:text "Wikipedia languages"})))))
