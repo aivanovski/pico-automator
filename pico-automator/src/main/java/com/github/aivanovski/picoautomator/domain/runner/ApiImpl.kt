@@ -114,7 +114,7 @@ internal class ApiImpl(
                 parentElement = null,
                 elements = listOf(element)
             )
-        ).isRight()
+        ).unwrap()
     }
 
     override fun getUiTree(): UiTreeNode {
