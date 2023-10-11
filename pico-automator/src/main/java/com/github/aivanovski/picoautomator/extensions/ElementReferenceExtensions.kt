@@ -12,10 +12,14 @@ fun ElementReference.toReadableFormat(): String {
 }
 
 fun List<ElementReference>.toReadableFormat(): String {
-    return this.joinToString(
-        separator = ",",
-        prefix = "[",
-        postfix = "]",
-        transform = { element -> element.toReadableFormat() }
-    )
+    return if (this.size == 1) {
+        this.first().toReadableFormat()
+    } else {
+        this.joinToString(
+            separator = ",",
+            prefix = "[",
+            postfix = "]",
+            transform = { element -> element.toReadableFormat() }
+        )
+    }
 }

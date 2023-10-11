@@ -17,6 +17,10 @@ object OutputMatcher {
             .filter { line -> line.isNotEmpty() }
             .map { line -> parseLine(line) }
 
+        if (expectedLines.isEmpty() && actualLines.isNotEmpty()) {
+            throw AssertionError("Failed: actual=$this, expected=$expectedOutput")
+        }
+
         var actualIdx = 0
         var expectedIdx = 0
         while (expectedIdx < expectedLines.size) {

@@ -14,22 +14,16 @@ internal class AssertVisible(
 ) : ExecutableFlowStep<Unit>, FlakyFlowStep {
 
     override fun describe(): String {
-        val formattedElements = if (elements.size == 1) {
-            elements.first().toReadableFormat()
-        } else {
-            elements.toReadableFormat()
-        }
-
         return when {
             parentElement != null -> {
                 String.format(
                     "Assert is visible: inside [%s] -> %s",
                     parentElement.toReadableFormat(),
-                    formattedElements
+                    elements.toReadableFormat()
                 )
             }
 
-            else -> "Assert is visible: $formattedElements"
+            else -> "Assert is visible: ${elements.toReadableFormat()}"
         }
     }
 
