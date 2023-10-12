@@ -15,3 +15,10 @@ out/
 build/
 .gradle
 tmp/
+*.iml
+
+# Clojure files
+.cpcache/
+.clj-kondo/
+.lsp
+.nrepl-port
