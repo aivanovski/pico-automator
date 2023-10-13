@@ -17,15 +17,17 @@ class PrintHelpUseCase(
 
     companion object {
         internal val HELP_TEXT = """
-            Pico Automator CLI %s
+            pico-automator CLI %s
+            The CLI-tool to run tests written in Clojure with pico-automator library
 
             USAGE:
-                pico-automator-cli [OPTIONS] <FILE1> <FILE2> ...
+                pico-automator [OPTIONS] [FILES]
 
-            ARGS:
-                <FILE-X>    Path to the file with test flow
+            DESCRIPTION:
+                FILES stand for one or more .clj files with test
 
             OPTIONS:
+                -n, --no-step                    Hides output information about flow steps
                 -h, --help                       Print help information
         """.trimIndent()
     }

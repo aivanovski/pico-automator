@@ -17,13 +17,15 @@ class ArgumentParser(
             return Either.Right(
                 Arguments(
                     files = emptyList(),
-                    isPrintHelp = false
+                    isPrintHelp = false,
+                    isNoStepsOutput = false
                 )
             )
         }
 
         val files = mutableListOf<String>()
         var isPrintHelp = false
+        var isNoStepsOutput = false
 
         val queue = LinkedList(args.toList())
         while (queue.isNotEmpty()) {
@@ -31,6 +33,7 @@ class ArgumentParser(
             if (arg.startsWith("-") || arg.startsWith("--")) {
                 when (OPTIONS_ARGUMENTS_MAP[arg]) {
                     OptionalArgument.HELP -> isPrintHelp = true
+                    OptionalArgument.NO_STEPS -> isNoStepsOutput = true
                     else -> {
                         return Either.Left(
                             ParsingException(String.format(UNKNOWN_OPTION, arg))
@@ -50,7 +53,8 @@ class ArgumentParser(
         return Either.Right(
             Arguments(
                 files = files,
-                isPrintHelp = isPrintHelp
+                isPrintHelp = isPrintHelp,
+                isNoStepsOutput = isNoStepsOutput
             )
         )
     }
@@ -68,7 +72,10 @@ class ArgumentParser(
     companion object {
         private val OPTIONS_ARGUMENTS_MAP = mapOf(
             OptionalArgument.HELP.cliShortName to OptionalArgument.HELP,
-            OptionalArgument.HELP.cliFullName to OptionalArgument.HELP
+            OptionalArgument.HELP.cliFullName to OptionalArgument.HELP,
+
+            OptionalArgument.NO_STEPS.cliShortName to OptionalArgument.NO_STEPS,
+            OptionalArgument.NO_STEPS.cliFullName to OptionalArgument.NO_STEPS
         )
     }
 }
