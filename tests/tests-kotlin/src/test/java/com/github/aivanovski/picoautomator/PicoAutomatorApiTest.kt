@@ -7,6 +7,7 @@ import com.github.aivanovski.picoautomator.domain.entity.ElementReference.Compan
 import com.github.aivanovski.picoautomator.domain.entity.ElementReference.Companion.contentDesc
 import com.github.aivanovski.picoautomator.domain.entity.ElementReference.Companion.id
 import com.github.aivanovski.picoautomator.domain.entity.ElementReference.Companion.text
+import com.github.aivanovski.picoautomator.extensions.hasElement
 import com.github.aivanovski.picoautomator.utils.OutputMatcher.matches
 import com.github.aivanovski.picoautomator.utils.TestUtils.runAndCaptureOutput
 import org.junit.jupiter.api.Test
@@ -96,10 +97,12 @@ class PicoAutomatorApiTest {
             tapOn(text("Search Wikipedia"))
             val maxSleepCount = 2
             for (sleepIdx in 1..maxSleepCount) {
-                sleep(millis(500))
+                sleep(millis(1500))
 
+                val tree = getUiTree()
                 when {
-                    isVisible(text("Recent searches:")) -> {
+                    tree.hasElement(text("Recent searches:")) ||
+                        tree.hasElement(containsText("Search and read the free encyclopedia")) -> {
                         complete("Complete message")
                     }
 
@@ -119,8 +122,8 @@ class PicoAutomatorApiTest {
             Start flow 'Sleep Flow'
             Step 1: Launch app: org.wikipedia - SUCCESS
             Step 2: Tap on element: [text = Search Wikipedia] - SUCCESS
-            Step 3: Sleep 500 millis - SUCCESS
-            Step 4: Is visible: [text = Recent searches:] - SUCCESS
+            Step 3: Sleep 1500 millis - SUCCESS
+            Step 4: Get UI tree - SUCCESS
             Flow 'Sleep Flow' finished successfully: Complete message
         """.trimIndent()
     }

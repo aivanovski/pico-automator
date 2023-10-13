@@ -7,18 +7,19 @@ import com.github.aivanovski.picoautomator.domain.runner.FlowLifecycleListener
 import com.github.aivanovski.picoautomator.domain.steps.FlowStep
 
 class StandardOutputFlowReporter(
-    private val output: OutputWriter
+    private val writer: OutputWriter,
+    private val isPrintStackTraceOnError: Boolean
 ) : FlowLifecycleListener {
 
     override fun onDeviceSelected(device: Device) {
-        output.println("Select device: ${device.id}")
+        writer.println("Select device: ${device.id}")
     }
 
     override fun onFlowStarted(flow: Flow, isPredecessor: Boolean) {
         if (isPredecessor) {
-            output.println("Start predecessor flow '${flow.name}'")
+            writer.println("Start predecessor flow '${flow.name}'")
         } else {
-            output.println("Start flow '${flow.name}'")
+            writer.println("Start flow '${flow.name}'")
         }
     }
 
@@ -26,24 +27,26 @@ class StandardOutputFlowReporter(
         if (result.isRight()) {
             val data = result.unwrap()
             if (data is String) {
-                output.println("Flow '${flow.name}' finished successfully: $data")
+                writer.println("Flow '${flow.name}' finished successfully: $data")
             } else {
-                output.println("Flow '${flow.name}' finished successfully")
+                writer.println("Flow '${flow.name}' finished successfully")
             }
         } else {
             val exception = result.unwrapError()
-            output.println(
+            writer.println(
                 "Flow '${flow.name}' failed: ${exception.message ?: exception.javaClass.simpleName}"
             )
-            output.printStackTrace(exception)
+            if (isPrintStackTraceOnError) {
+                writer.printStackTrace(exception)
+            }
         }
     }
 
     override fun onStepStarted(flow: Flow, step: FlowStep, stepIndex: Int, repeatCount: Int) {
         if (repeatCount == 0) {
-            output.print("Step ${stepIndex + 1}: ${step.describe()}")
+            writer.print("Step ${stepIndex + 1}: ${step.describe()}")
         } else {
-            output.print("Retry ${stepIndex + 1}: ${step.describe()}")
+            writer.print("Retry ${stepIndex + 1}: ${step.describe()}")
         }
     }
 
@@ -54,6 +57,36 @@ class StandardOutputFlowReporter(
         result: Either<Exception, Any>
     ) {
         val resultMessage = if (result.isLeft()) "FAILED" else "SUCCESS"
-        output.println(" - $resultMessage")
+        writer.println(" - $resultMessage")
+    }
+
+    companion object {
+
+        @JvmStatic
+        var defaultReporter: StandardOutputFlowReporter? = null
+
+        @JvmStatic
+        fun newReplReporter(writer: OutputWriter): StandardOutputFlowReporter {
+            return StandardOutputFlowReporter(
+                writer,
+                isPrintStackTraceOnError = true
+            )
+        }
+
+        @JvmStatic
+        fun newCliReporter(writer: OutputWriter): StandardOutputFlowReporter {
+            return StandardOutputFlowReporter(
+                writer,
+                isPrintStackTraceOnError = false
+            )
+        }
+
+        @JvmStatic
+        fun newSilentReporter(): StandardOutputFlowReporter {
+            return StandardOutputFlowReporter(
+                SilentOutputWriter(),
+                isPrintStackTraceOnError = false
+            )
+        }
     }
 }

@@ -1,5 +1,5 @@
 [versions]
-appVersion = "0.0.9"
+appVersion = "0.0.11"
 
 kotlinVersion = "1.8.22"
 kotestVersion = "5.5.2"

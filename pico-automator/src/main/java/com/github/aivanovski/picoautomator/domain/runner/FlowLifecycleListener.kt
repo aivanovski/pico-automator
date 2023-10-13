@@ -9,34 +9,29 @@ interface FlowLifecycleListener {
 
     fun onDeviceSelected(
         device: Device
-    ) {
-    }
+    )
 
     fun onFlowStarted(
         flow: Flow,
         isPredecessor: Boolean
-    ) {
-    }
+    )
 
     fun onFlowFinished(
         flow: Flow,
         result: Either<Exception, Any>
-    ) {
-    }
+    )
 
     fun onStepStarted(
         flow: Flow,
         step: FlowStep,
         stepIndex: Int,
         repeatCount: Int
-    ) {
-    }
+    )
 
     fun onStepFinished(
         flow: Flow,
         step: FlowStep,
         stepIndex: Int,
         result: Either<Exception, Any>
-    ) {
-    }
+    )
 }

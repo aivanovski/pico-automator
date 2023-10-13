@@ -2,15 +2,18 @@ package com.github.aivanovski.picoautomator.cli.domain
 
 import com.github.aivanovski.picoautomator.cli.domain.argument.ArgumentParser
 import com.github.aivanovski.picoautomator.cli.domain.usecases.PrintHelpUseCase
-import com.github.aivanovski.picoautomator.cli.domain.usecases.RunTestUseCase
+import com.github.aivanovski.picoautomator.cli.domain.usecases.PrintTestExecutionResultUseCase
+import com.github.aivanovski.picoautomator.cli.domain.usecases.RunTestsUseCase
+import com.github.aivanovski.picoautomator.cli.entity.OutputFormat
+import com.github.aivanovski.picoautomator.cli.entity.exception.TestExecutionException
 import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.presentation.OutputWriter
 
 class MainInteractor(
     private val argumentParser: ArgumentParser,
     private val printHelpUseCase: PrintHelpUseCase,
-    private val runTestUseCase: RunTestUseCase,
-    private val errorHandler: ErrorHandler,
+    private val runTestsUseCase: RunTestsUseCase,
+    private val printResultUseCase: PrintTestExecutionResultUseCase,
     private val writer: OutputWriter
 ) {
 
@@ -26,13 +29,21 @@ class MainInteractor(
             return Either.Right(Unit)
         }
 
-        for (file in args.files) {
-            val result = runTestUseCase.run(file)
-            if (result.isLeft()) {
-                errorHandler.processIfLeft(result)
-            }
+        val outputFormat = if (args.isNoStepsOutput) {
+            OutputFormat.NO_STEPS
+        } else {
+            OutputFormat.DETAILED
         }
 
-        return Either.Right(Unit)
+        val testResult = runTestsUseCase.run(args.files, outputFormat)
+        printResultUseCase.printTestExecutionResult(testResult)
+
+        val isAllTestsPassed = testResult.results.all { result -> result.isRight() }
+
+        return if (isAllTestsPassed) {
+            Either.Right(Unit)
+        } else {
+            Either.Left(TestExecutionException())
+        }
     }
 }
