@@ -13,6 +13,7 @@ class FlowRunner(
     private val maxFlakyStepRepeatCount: Int = MAX_REPEAT_COUNT
 ) {
 
+    private var device: Device? = null
     private val listeners = mutableListOf<FlowLifecycleListener>()
     private val processExecutor = ProcessExecutor()
     private val adbExecutor = AdbExecutor(
@@ -22,21 +23,35 @@ class FlowRunner(
         )
     )
 
-    fun run(flow: Flow) {
-        val selectDeviceResult = selectDevice()
-        if (selectDeviceResult.isLeft()) {
-            listeners.forEach { it.onFlowFinished(flow, selectDeviceResult.mapToLeft()) }
-            return
+    fun run(
+        flow: Flow,
+        isUsePreviouslySelectedDevice: Boolean = true
+    ) {
+        val lastDevice = device
+
+        val device = if (lastDevice == null || !isUsePreviouslySelectedDevice) {
+            val selectDeviceResult = selectDevice()
+            if (selectDeviceResult.isLeft()) {
+                listeners.forEach { it.onFlowFinished(flow, selectDeviceResult.mapToLeft()) }
+                return
+            }
+
+            val device = selectDeviceResult.unwrap()
+            listeners.forEach { it.onDeviceSelected(device) }
+
+            device
+        } else {
+            lastDevice
         }
 
-        val device = selectDeviceResult.unwrap()
+        this.device = device
+
         val adbDeviceExecutor = adbExecutor.cloneWithEnvironment(
             AdbEnvironment(
                 processExecutor = processExecutor,
                 device = device
             )
         )
-        listeners.forEach { it.onDeviceSelected(device) }
 
         ApiImpl(
             flow = flow,
@@ -50,6 +65,10 @@ class FlowRunner(
         if (!listeners.contains(listener)) {
             listeners.add(listener)
         }
+    }
+
+    fun removeLifecycleListener(listener: FlowLifecycleListener) {
+        listeners.remove(listener)
     }
 
     private fun selectDevice(): Either<Exception, Device> {
@@ -102,5 +121,8 @@ class FlowRunner(
 
     companion object {
         private const val MAX_REPEAT_COUNT = 3
+
+        @JvmStatic
+        var defaultRunner = FlowRunner(maxFlakyStepRepeatCount = MAX_REPEAT_COUNT)
     }
 }
