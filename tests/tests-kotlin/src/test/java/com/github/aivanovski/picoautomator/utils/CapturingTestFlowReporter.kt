@@ -17,7 +17,10 @@ class CapturingTestFlowReporter(
 ) : FlowLifecycleListener {
 
     private val outputWriter = TestOutputWriter()
-    private val reporter = StandardOutputFlowReporter(outputWriter)
+    private val reporter = StandardOutputFlowReporter(
+        outputWriter,
+        isPrintStackTraceOnError = false
+    )
 
     override fun onDeviceSelected(device: Device) {
         reporter.onDeviceSelected(device)
