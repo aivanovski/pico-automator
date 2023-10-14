@@ -82,7 +82,12 @@ clojure -M:repl-server
 The example could be found [here](https://github.com/aivanovski/pico-automator/tree/main/samples/sample-clojure)
 
 ## API
-The api namespace is picoautomator.core.
+The api namespace is `picoautomator.core`.
 
-## Example
+### Start the test
+```
+(start-flow name flow)
+```
 
+## Examples
+More examples could be found [here](https://github.com/aivanovski/pico-automator/tree/main/samples)
