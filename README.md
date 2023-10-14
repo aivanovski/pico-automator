@@ -28,39 +28,36 @@ java -jar pico-automator.jar example.clj
 ```
 
 ## Usage
-There are 3 ways to run tests with *pico-automator*:
-- With standalon CLI application `pico-automator.jar`
+There are 2 ways to run tests with *pico-automator*:
+- With standalone CLI application `pico-automator.jar`
 - With Clojure REPL
-- With `clojure` command
 
 ### Run tests with CLI application
 The usage of CLI application is described in [Quickstart](https://github.com/aivanovski/pico-automator/tree/feature/update-readme#quickstart) section.
 
 ### Run tests with Clojure REPL
-*pico-automator* could be used as regular Java dependency inside any Clojure project, but usage of Java library may not be very convenient from Clojure. The Functional API for *pico-automator* is provided by [pico-automator-clojure](https://github.com/aivanovski/pico-automator-clojure) project, that can be used as dependency inside `deps.edn` file.
+The Functional API for *pico-automator* is provided by [pico-automator-clojure](https://github.com/aivanovski/pico-automator-clojure) project, that can be used as a dependency inside `deps.edn` file. [pico-automator-clojure](https://github.com/aivanovski/pico-automator-clojure) is available in JitPack maven repository [here](https://jitpack.io/#aivanovski/pico-automator-clojure).
 
-1. Setup `deps.edn` file in the directory with test:
+1. Setup `deps.edn` file in the directory:
 ```Clojure
 {:paths ["."]
 
  :mvn/repos
- {"maven-central" {:url "https://repo1.maven.org/maven2"}
-  "jitpack"       {:url "https://jitpack.io/"}}
+ {"jitpack" {:url "https://jitpack.io/"}}
 
  :deps
- {com.github.aivanovski/pico-automator-clojure {:git/tag "0.0.8" :git/sha "63417683"}}
+ {com.github.aivanovski/pico-automator-clojure {:mvn/version "0.0.11"}}
 
  :aliases
- {:nrepl {:extra-deps {nrepl/nrepl       {:mvn/version "0.9.0"}
-                       cider/cider-nrepl {:mvn/version "0.28.4"}}
-          :main-opts  ["-m" "nrepl.cmdline"
-                       "--middleware" "[cider.nrepl/cider-middleware]"
-                       "--interactive"]}}}
+ {:repl-server {:extra-deps {nrepl/nrepl       {:mvn/version "1.0.0"}
+                             cider/cider-nrepl {:mvn/version "0.37.0"}}
+                :main-opts  ["--main"       "nrepl.cmdline"
+                             "--middleware" "[cider.nrepl/cider-middleware]"]}}}
 ```
 
-2. Start the REPL:
+2. Start the REPL server:
 ```
-clojure -M:nrepl
+clojure -M:repl-server
 ```
 
 3. Create file with the test:
@@ -76,14 +73,16 @@ clojure -M:nrepl
     (fn [automator]
       (-> automator
           (launch "org.wikipedia")
-          ... ; Implement test steps
+          ... ; Implement your test steps here
           ))))
 ```
 
+4. Connect to the REPL and run it.
 
-The sample could be found [here](https://github.com/aivanovski/pico-automator/tree/main/samples/sample-clojure)
+The example could be found [here](https://github.com/aivanovski/pico-automator/tree/main/samples/sample-clojure)
 
-### Run tests with `clojure` command
+## API
+The api namespace is picoautomator.core.
 
-## Samples
+## Example
 
