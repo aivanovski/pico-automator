@@ -10,6 +10,7 @@ interface PicoAutomatorApi {
     fun assertVisible(element: ElementReference): Either<Exception, Unit>
     fun assertVisible(elements: List<ElementReference>): Either<Exception, Unit>
     fun tapOn(element: ElementReference): Either<Exception, Unit>
+    fun longTapOn(element: ElementReference): Either<Exception, Unit>
     fun inputText(text: String): Either<Exception, Unit>
     fun inputText(element: ElementReference, text: String): Either<Exception, Unit>
     fun pressBack(): Either<Exception, Unit>

@@ -159,4 +159,40 @@ class PicoAutomatorApiTest {
             Flow 'Is Visible Flow' finished successfully
         """.trimIndent()
     }
+
+    @Test
+    fun `taps should work`() {
+        // arrange
+        val flow = newFlow("Taps Flow") {
+            launch("org.wikipedia")
+
+            assertVisible(text("Featured article"))
+            tapOn(id("view_featured_article_card_content_container"))
+            assertVisible(id("page_web_view"))
+
+            pressBack()
+
+            assertVisible(text("Featured article"))
+            longTapOn(id("view_featured_article_card_content_container"))
+            assertVisible(listOf(text("Share link"), text("Copy link address")))
+        }
+
+        // act
+        val output = runAndCaptureOutput(flow)
+
+        // assert
+        output matches """
+            Select device: %s
+            Start flow 'Taps Flow'
+            Step 1: Launch app: org.wikipedia - SUCCESS
+            Step 2: Assert is visible: [text = Featured article] - SUCCESS
+            Step 3: Tap on element: [id = view_featured_article_card_content_container] - SUCCESS
+            Step 4: Assert is visible: [id = page_web_view] - SUCCESS
+            Step 5: Press back - SUCCESS
+            Step 6: Assert is visible: [text = Featured article] - SUCCESS
+            Step 7: Long tap on element: [id = view_featured_article_card_content_container] - SUCCESS
+            Step 8: Assert is visible: [[text = Share link],[text = Copy link address]] - SUCCESS
+            Flow 'Taps Flow' finished successfully
+        """.trimIndent()
+    }
 }

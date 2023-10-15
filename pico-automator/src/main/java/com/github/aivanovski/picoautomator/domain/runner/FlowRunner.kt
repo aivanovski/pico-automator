@@ -71,6 +71,10 @@ class FlowRunner(
         listeners.remove(listener)
     }
 
+    fun removeAllListeners() {
+        listeners.clear()
+    }
+
     private fun selectDevice(): Either<Exception, Device> {
         val getDevicesResult = adbExecutor.execute(GetDevicesCommand())
         if (getDevicesResult.isLeft()) {
