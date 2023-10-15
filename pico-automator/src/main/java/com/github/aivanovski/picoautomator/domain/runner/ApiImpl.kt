@@ -19,6 +19,7 @@ import com.github.aivanovski.picoautomator.domain.steps.GetUiTree
 import com.github.aivanovski.picoautomator.domain.steps.InputText
 import com.github.aivanovski.picoautomator.domain.steps.IsVisible
 import com.github.aivanovski.picoautomator.domain.steps.Launch
+import com.github.aivanovski.picoautomator.domain.steps.LongTap
 import com.github.aivanovski.picoautomator.domain.steps.PressBack
 import com.github.aivanovski.picoautomator.domain.steps.PressKey
 import com.github.aivanovski.picoautomator.domain.steps.Sleep
@@ -79,6 +80,12 @@ internal class ApiImpl(
     override fun tapOn(element: ElementReference): Either<Exception, Unit> {
         return runStep(
             Tap(element = element)
+        )
+    }
+
+    override fun longTapOn(element: ElementReference): Either<Exception, Unit> {
+        return runStep(
+            LongTap(element = element)
         )
     }
 
