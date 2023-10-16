@@ -4,14 +4,16 @@ import com.github.aivanovski.picoautomator.cli.data.filesystem.FileProvider
 import com.github.aivanovski.picoautomator.cli.data.filesystem.FileProviderImpl
 import com.github.aivanovski.picoautomator.cli.data.resource.ResourceProvider
 import com.github.aivanovski.picoautomator.cli.data.resource.ResourceProviderImpl
-import com.github.aivanovski.picoautomator.cli.domain.ErrorHandler
 import com.github.aivanovski.picoautomator.cli.domain.MainInteractor
 import com.github.aivanovski.picoautomator.cli.domain.argument.ArgumentParser
+import com.github.aivanovski.picoautomator.cli.domain.clojure.ClojureEngine
+import com.github.aivanovski.picoautomator.cli.domain.clojure.ClojureTransformer
 import com.github.aivanovski.picoautomator.cli.domain.usecases.GetVersionUseCase
 import com.github.aivanovski.picoautomator.cli.domain.usecases.PrintHelpUseCase
 import com.github.aivanovski.picoautomator.cli.domain.usecases.PrintTestExecutionResultUseCase
 import com.github.aivanovski.picoautomator.cli.domain.usecases.RunTestUseCase
 import com.github.aivanovski.picoautomator.cli.domain.usecases.RunTestsUseCase
+import com.github.aivanovski.picoautomator.cli.domain.usecases.SetupTestEnvironmentUseCase
 import com.github.aivanovski.picoautomator.presentation.ColoredOutputWriter
 import com.github.aivanovski.picoautomator.presentation.OutputWriter
 import com.github.aivanovski.picoautomator.presentation.StandardColoredOutputWriter
@@ -25,14 +27,18 @@ object KoinModule {
         single { ArgumentParser(get()) }
         single<OutputWriter> { StandardOutputWriter() }
         single<ColoredOutputWriter> { StandardColoredOutputWriter(get()) }
-        single { ErrorHandler(get()) }
+
+        // Clojure
+        single { ClojureEngine() }
+        single { ClojureTransformer() }
 
         // use cases
         single { GetVersionUseCase(get()) }
         single { PrintHelpUseCase(get()) }
-        single { RunTestUseCase(get(), get(), get()) }
-        single { RunTestsUseCase(get(), get()) }
+        single { RunTestUseCase(get(), get(), get(), get()) }
+        single { RunTestsUseCase(get(), get(), get()) }
         single { PrintTestExecutionResultUseCase(get()) }
+        single { SetupTestEnvironmentUseCase(get(), get(), get(), get()) }
 
         single { MainInteractor(get(), get(), get(), get(), get()) }
     }

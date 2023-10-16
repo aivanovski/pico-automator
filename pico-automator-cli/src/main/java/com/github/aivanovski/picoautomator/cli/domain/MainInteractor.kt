@@ -35,10 +35,19 @@ class MainInteractor(
             OutputFormat.DETAILED
         }
 
-        val testResult = runTestsUseCase.run(args.files, outputFormat)
-        printResultUseCase.printTestExecutionResult(testResult)
+        val runTestsResult = runTestsUseCase.run(
+            loadFiles = args.loadFiles,
+            testFiles = args.files,
+            outputFormat = outputFormat
+        )
+        if (runTestsResult.isLeft()) {
+            return runTestsResult.mapToLeft()
+        }
 
-        val isAllTestsPassed = testResult.results.all { result -> result.isRight() }
+        val testsResult = runTestsResult.unwrap()
+        printResultUseCase.printTestExecutionResult(testsResult)
+
+        val isAllTestsPassed = testsResult.results.all { result -> result.isRight() }
 
         return if (isAllTestsPassed) {
             Either.Right(Unit)

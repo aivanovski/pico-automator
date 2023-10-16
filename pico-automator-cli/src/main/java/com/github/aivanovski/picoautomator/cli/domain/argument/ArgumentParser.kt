@@ -17,6 +17,7 @@ class ArgumentParser(
             return Either.Right(
                 Arguments(
                     files = emptyList(),
+                    loadFiles = emptyList(),
                     isPrintHelp = false,
                     isNoStepsOutput = false
                 )
@@ -24,6 +25,7 @@ class ArgumentParser(
         }
 
         val files = mutableListOf<String>()
+        val loadFiles = mutableListOf<String>()
         var isPrintHelp = false
         var isNoStepsOutput = false
 
@@ -34,6 +36,15 @@ class ArgumentParser(
                 when (OPTIONS_ARGUMENTS_MAP[arg]) {
                     OptionalArgument.HELP -> isPrintHelp = true
                     OptionalArgument.NO_STEPS -> isNoStepsOutput = true
+                    OptionalArgument.LOAD -> {
+                        val file = queue.poll()
+                        val checkPathResult = checkPath(file)
+                        if (checkPathResult.isLeft()) {
+                            return checkPathResult.mapToLeft()
+                        }
+
+                        loadFiles.add(file)
+                    }
                     else -> {
                         return Either.Left(
                             ParsingException(String.format(UNKNOWN_OPTION, arg))
@@ -53,6 +64,7 @@ class ArgumentParser(
         return Either.Right(
             Arguments(
                 files = files,
+                loadFiles = loadFiles,
                 isPrintHelp = isPrintHelp,
                 isNoStepsOutput = isNoStepsOutput
             )
@@ -75,7 +87,10 @@ class ArgumentParser(
             OptionalArgument.HELP.cliFullName to OptionalArgument.HELP,
 
             OptionalArgument.NO_STEPS.cliShortName to OptionalArgument.NO_STEPS,
-            OptionalArgument.NO_STEPS.cliFullName to OptionalArgument.NO_STEPS
+            OptionalArgument.NO_STEPS.cliFullName to OptionalArgument.NO_STEPS,
+
+            OptionalArgument.LOAD.cliShortName to OptionalArgument.LOAD,
+            OptionalArgument.LOAD.cliFullName to OptionalArgument.LOAD
         )
     }
 }
