@@ -14,10 +14,8 @@
 
   (-> automator
       (assert-visible {:text "Deutsch"})
-      (languages/remove-language-if-need "Deutsch"))
-
-  (when (visible? automator {:text "Deutsch"})
-    (fail automator "Unable to remove Language")))
+      (languages/remove-language-if-need "Deutsch")
+      (assert-not-visible {:text "Deutsch"})))
 
 (defn -main
   [& args]

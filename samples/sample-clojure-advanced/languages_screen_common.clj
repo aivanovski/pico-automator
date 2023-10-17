@@ -33,7 +33,7 @@
       (assert-visible {:text "Your languages"})
       (tap-on {:text "Add language"})
       (tap-on {:content-desc "Search for a language"})
-      (input-text "german")
+      (input-text language)
       (tap-on {:text language}))
 
   automator)
