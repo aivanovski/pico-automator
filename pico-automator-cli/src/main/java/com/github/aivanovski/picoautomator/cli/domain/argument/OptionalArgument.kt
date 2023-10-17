@@ -4,8 +4,10 @@ enum class OptionalArgument(
     private val shortName: String,
     private val fullName: String
 ) {
-    HELP(shortName = "h", fullName = "help"),
-    NO_STEPS(shortName = "n", fullName = "no-steps");
+
+    LOAD(shortName = "l", fullName = "load"),
+    NO_STEPS(shortName = "n", fullName = "no-steps"),
+    HELP(shortName = "h", fullName = "help");
 
     val cliShortName: String = "-$shortName"
     val cliFullName: String = "--$fullName"

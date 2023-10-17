@@ -23,10 +23,16 @@ class PrintHelpUseCase(
             USAGE:
                 pico-automator [OPTIONS] [FILES]
 
+            USAGE EXAMPLES:
+                pico-automator login.clj
+                pico-automator login.clj open-profile.clj
+                pico-automator login.clj open-profile.clj --load common.clj
+
             DESCRIPTION:
                 FILES stand for one or more .clj files with test
 
             OPTIONS:
+                -l [FILE], --load [FILE]         File to load before before tests
                 -n, --no-step                    Hides output information about flow steps
                 -h, --help                       Print help information
         """.trimIndent()
