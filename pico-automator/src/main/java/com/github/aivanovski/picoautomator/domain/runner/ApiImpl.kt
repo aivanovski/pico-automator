@@ -12,7 +12,7 @@ import com.github.aivanovski.picoautomator.domain.entity.exception.CompleteExecu
 import com.github.aivanovski.picoautomator.domain.entity.exception.ExecutionException
 import com.github.aivanovski.picoautomator.domain.entity.exception.FailedStepException
 import com.github.aivanovski.picoautomator.domain.entity.exception.StopExecutionException
-import com.github.aivanovski.picoautomator.domain.steps.AssertVisible
+import com.github.aivanovski.picoautomator.domain.steps.Assert
 import com.github.aivanovski.picoautomator.domain.steps.ExecutableFlowStep
 import com.github.aivanovski.picoautomator.domain.steps.FlakyFlowStep
 import com.github.aivanovski.picoautomator.domain.steps.GetUiTree
@@ -25,6 +25,8 @@ import com.github.aivanovski.picoautomator.domain.steps.PressKey
 import com.github.aivanovski.picoautomator.domain.steps.Sleep
 import com.github.aivanovski.picoautomator.domain.steps.Tap
 import com.github.aivanovski.picoautomator.domain.steps.WaitForElement
+import com.github.aivanovski.picoautomator.domain.steps.assertions.NotVisibleAssertion
+import com.github.aivanovski.picoautomator.domain.steps.assertions.VisibleAssertion
 
 internal class ApiImpl(
     private val flow: Flow,
@@ -61,20 +63,30 @@ internal class ApiImpl(
 
     override fun assertVisible(elements: List<ElementReference>): Either<Exception, Unit> {
         return runStep(
-            AssertVisible(
+            Assert(
                 parentElement = null,
-                elements = elements
+                elements = elements,
+                assertion = VisibleAssertion()
             )
         )
     }
 
     override fun assertVisible(element: ElementReference): Either<Exception, Unit> {
+        return assertVisible(listOf(element))
+    }
+
+    override fun assertNotVisible(elements: List<ElementReference>): Either<Exception, Unit> {
         return runStep(
-            AssertVisible(
+            Assert(
                 parentElement = null,
-                elements = listOf(element)
+                elements = elements,
+                assertion = NotVisibleAssertion()
             )
         )
+    }
+
+    override fun assertNotVisible(element: ElementReference): Either<Exception, Unit> {
+        return assertNotVisible(listOf(element))
     }
 
     override fun tapOn(element: ElementReference): Either<Exception, Unit> {

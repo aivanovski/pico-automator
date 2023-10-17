@@ -195,4 +195,54 @@ class PicoAutomatorApiTest {
             Flow 'Taps Flow' finished successfully
         """.trimIndent()
     }
+
+    @Test
+    fun `assertions should work`() {
+        // arrange
+        val flow = newFlow("Assertions Flow") {
+            launch("org.wikipedia")
+
+            assertVisible(contentDesc("Explore"))
+            assertVisible(
+                listOf(
+                    contentDesc("Explore"),
+                    contentDesc("Saved"),
+                    contentDesc("Search"),
+                    contentDesc("Edits"),
+                    contentDesc("More")
+                )
+            )
+
+            tapOn(contentDesc("More"))
+            tapOn(text("Settings"))
+
+            assertNotVisible(contentDesc("Explore"))
+            assertNotVisible(
+                listOf(
+                    contentDesc("Explore"),
+                    contentDesc("Saved"),
+                    contentDesc("Search"),
+                    contentDesc("Edits"),
+                    contentDesc("More")
+                )
+            )
+        }
+
+        // act
+        val output = runAndCaptureOutput(flow)
+
+        // assert
+        output matches """
+            Select device: emulator-5554
+            Start flow 'Assertions Flow'
+            Step 1: Launch app: org.wikipedia - SUCCESS
+            Step 2: Assert is visible: [desc = Explore] - SUCCESS
+            Step 3: Assert is visible: [[desc = Explore],[desc = Saved],[desc = Search],[desc = Edits],[desc = More]] - SUCCESS
+            Step 4: Tap on element: [desc = More] - SUCCESS
+            Step 5: Tap on element: [text = Settings] - SUCCESS
+            Step 6: Assert is not visible: [desc = Explore] - SUCCESS
+            Step 7: Assert is not visible: [[desc = Explore],[desc = Saved],[desc = Search],[desc = Edits],[desc = More]] - SUCCESS
+            Flow 'Assertions Flow' finished successfully
+        """.trimIndent()
+    }
 }

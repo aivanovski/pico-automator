@@ -4,26 +4,29 @@ import com.github.aivanovski.picoautomator.data.adb.AdbExecutor
 import com.github.aivanovski.picoautomator.data.adb.command.GetUiTreeCommand
 import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.domain.entity.ElementReference
+import com.github.aivanovski.picoautomator.domain.steps.assertions.Assertion
 import com.github.aivanovski.picoautomator.extensions.findNode
 import com.github.aivanovski.picoautomator.extensions.matches
 import com.github.aivanovski.picoautomator.extensions.toReadableFormat
 
-internal class AssertVisible(
+internal class Assert(
     private val parentElement: ElementReference?,
-    private val elements: List<ElementReference>
+    private val elements: List<ElementReference>,
+    private val assertion: Assertion
 ) : ExecutableFlowStep<Unit>, FlakyFlowStep {
 
     override fun describe(): String {
         return when {
             parentElement != null -> {
                 String.format(
-                    "Assert is visible: inside [%s] -> %s",
+                    "Assert %s: inside [%s] -> %s",
+                    assertion.describe(),
                     parentElement.toReadableFormat(),
                     elements.toReadableFormat()
                 )
             }
 
-            else -> "Assert is visible: ${elements.toReadableFormat()}"
+            else -> "Assert ${assertion.describe()}: ${elements.toReadableFormat()}"
         }
     }
 
@@ -44,13 +47,6 @@ internal class AssertVisible(
             parentNode
         }
 
-        for (element in elements) {
-            val node = nodeToLookup.findNode { node -> node.matches(element) }
-            if (node == null) {
-                return Either.Left(Exception("Unable to find element: $element"))
-            }
-        }
-
-        return Either.Right(Unit)
+        return assertion.assert(nodeToLookup, elements)
     }
 }
