@@ -33,7 +33,7 @@ There are 2 ways to run tests with *pico-automator*:
 - With Clojure REPL
 
 ### Run tests with CLI application
-The usage of CLI application is described in [Quickstart](https://github.com/aivanovski/pico-automator/tree/feature/update-readme#quickstart) section.
+The usage of CLI application is described in [Quickstart](https://github.com/aivanovski/pico-automator#quickstart) section.
 
 ### Run tests with Clojure REPL
 The Functional API for *pico-automator* is provided by [pico-automator-clojure](https://github.com/aivanovski/pico-automator-clojure) project, that can be used as a dependency inside `deps.edn` file. [pico-automator-clojure](https://github.com/aivanovski/pico-automator-clojure) is available in JitPack maven repository [here](https://jitpack.io/#aivanovski/pico-automator-clojure).
