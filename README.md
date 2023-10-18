@@ -1,7 +1,7 @@
 [![](https://jitpack.io/v/aivanovski/pico-automator.svg)](https://jitpack.io/#aivanovski/pico-automator)
 
 ## pico-automator
-Small UI automation library for Android built on top of ADB calls. It provides API to write readable and dynamic tests on Clojure that could be run inside REPL or from command line.
+Small UI automation library for Android built on top of [ADB](https://developer.android.com/tools/adb) calls. It provides API to write readable and dynamic tests on Clojure that could be run inside REPL or from command line.
 
 ## Demo
 ![demo](https://github.com/aivanovski/pico-automator/blob/main/images/demo.gif)
