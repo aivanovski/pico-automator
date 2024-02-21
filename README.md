@@ -46,7 +46,7 @@ The Functional API for *pico-automator* is provided by [pico-automator-clojure](
  {"jitpack" {:url "https://jitpack.io/"}}
 
  :deps
- {com.github.aivanovski/pico-automator-clojure {:mvn/version "0.0.11"}}
+ {com.github.aivanovski/pico-automator-clojure {:mvn/version "0.1.0"}}
 
  :aliases
  {:repl-server {:extra-deps {nrepl/nrepl       {:mvn/version "1.0.0"}
