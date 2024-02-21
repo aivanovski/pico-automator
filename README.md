@@ -81,12 +81,96 @@ clojure -M:repl-server
 
 The example could be found [here](https://github.com/aivanovski/pico-automator/tree/main/samples/sample-clojure)
 
-## API
+## API overview
 The api namespace is `picoautomator.core`.
 
 ### Start the test
+Function `start-flow` starts the test:
+```clojure
+(start-flow
+  "Test Flow"
+  (fn [automator]
+    (-> automator
+        (launch "org.wikipedia"))))
 ```
-(start-flow name flow)
+
+### Launch application
+The application could be launched with `launch` function:
+```clojure
+(-> automator
+    (launch "org.wikipedia")) ;; specify your application id
+```
+
+### Indentify views
+Functions that interact with views (for example `tap-on`, `assert-visible`, `input-text` and etc.) require the view paramaters to be specified as follows.
+By view id:
+```clojure
+{:id "viewId"} ;; corresponds to R.id.viewId in android application
+```
+By exact text:
+```clojure
+{:text "Search Wikipedia"}
+```
+By content description:
+```clojure
+{:content-desc "search-wikipedia"}
+```
+By patricular text matching:
+```clojure
+{:contains-text "Wikipedia"}
+```
+
+### Assertions
+To assert whether an element is visbile or not visible following function could be used:
+```clojure
+(-> automator
+    (assert-visible {:id "viewId"})
+    (assert-not-visible {:id "viewId"}))
+```
+
+### Clicks
+In order to click/tap on view:
+```clojure
+(-> automator
+    (tap-on {:id "viewId"})
+    (long-tap-on {:id "viewId"}))
+```
+
+### Input text
+```clojure
+(-> automator
+    ;; Inputs text regardless of whether any text field is currently focused or not
+    (input-text "Text")
+
+    ;; Taps on view specified by view-parameters and then inputs text
+    (input-text "Text" {:id "inputField"}))
+```
+
+### Controlling test lifecycle
+In order to finish test successfully or with a failure depend on some extenal condition, functions `complete` and `fail` could be used:
+```clojure
+(-> automator
+    ;; Finishes test successfully and prints the message
+    (complete "The test is finished successfully")
+
+    ;; Finishes test with an error and prints the message
+    (fail "The test is failed"))
+```
+
+### Other functions
+```clojure
+(-> automator
+    ;; Checks if view is visible and returns true of false
+    (visible? {:id "viewId"})
+
+    ;; Stops test execution for 5 seconds
+    (sleep {:seconds 5})
+
+    ;; Wait until view became visible on the screen for 15 seconds and checks every second
+    (wait-until {:text "viewId"} {:seconds 15} {:seconds 1})
+
+    ;; Returns object that represents view tree on the screen
+    (ui-tree))
 ```
 
 ## Examples
