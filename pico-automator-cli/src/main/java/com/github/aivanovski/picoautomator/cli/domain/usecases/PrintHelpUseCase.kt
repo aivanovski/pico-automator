@@ -32,7 +32,7 @@ class PrintHelpUseCase(
                 FILES stand for one or more .clj files with test
 
             OPTIONS:
-                -l [FILE], --load [FILE]         File to load before before tests
+                -l [FILE], --load [FILE]         File to load before tests
                 -n, --no-step                    Hides output information about flow steps
                 -h, --help                       Print help information
         """.trimIndent()

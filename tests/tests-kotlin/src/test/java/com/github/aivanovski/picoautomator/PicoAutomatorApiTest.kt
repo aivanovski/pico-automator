@@ -14,8 +14,33 @@ import org.junit.jupiter.api.Test
 
 class PicoAutomatorApiTest {
 
+    private fun clearStateAndSkipIntro() {
+        val flow = newFlow("Clear State and Skip Intro") {
+            launch("org.wikipedia", isClearState = true)
+
+            if (isVisible(containsText("The Free Encyclopedia"))) {
+                tapOn(text("Skip"))
+                assertVisible(text("Search Wikipedia"))
+            }
+        }
+
+        val output = runAndCaptureOutput(flow)
+
+        output matches """
+            Select device: %s
+            Start flow 'Clear State and Skip Intro'
+            Step 1: Launch app: package name = org.wikipedia, clear state = true - SUCCESS
+            Step 2: Is visible: [has text = The Free Encyclopedia] - SUCCESS
+            Step 3: Tap on element: [text = Skip] - SUCCESS
+            Step 4: Assert is visible: [text = Search Wikipedia] - SUCCESS
+            Flow 'Clear State and Skip Intro' finished successfully
+        """.trimIndent()
+    }
+
     @Test
     fun `check basic api calls`() {
+        clearStateAndSkipIntro()
+
         // arrange
         val flow = newFlow("Test Flow") {
             launch("org.wikipedia")
@@ -41,7 +66,7 @@ class PicoAutomatorApiTest {
         output matches """
             Select device: %s
             Start flow 'Test Flow'
-            Step 1: Launch app: org.wikipedia - SUCCESS
+            Step 1: Launch app: package name = org.wikipedia - SUCCESS
             Step 2: Assert is visible: [text = Search Wikipedia] - SUCCESS
             Step 3: Tap on element: [text = Search Wikipedia] - SUCCESS
             Step 4: Assert is visible: [id = search_src_text] - SUCCESS
@@ -61,6 +86,8 @@ class PicoAutomatorApiTest {
 
     @Test
     fun `references should work`() {
+        clearStateAndSkipIntro()
+
         // arrange
         val flow = newFlow("Test Flow") {
             launch("org.wikipedia")
@@ -82,14 +109,16 @@ class PicoAutomatorApiTest {
         output matches """
             Select device: %s
             Start flow 'Test Flow'
-            Step 1: Launch app: org.wikipedia - SUCCESS
-            Step 2: Assert is visible: [[id = main_view_pager],[desc = More],[text = Explore],[has text = Wikipedia]] - SUCCESS
+            Step 1: Launch app: package name = org.wikipedia - SUCCESS
+            Step 2: Assert is visible: [[id = main_view_pager], [desc = More], [text = Explore], [has text = Wikipedia]] - SUCCESS
             Flow 'Test Flow' finished successfully
         """
     }
 
     @Test
     fun `sleep should work`() {
+        clearStateAndSkipIntro()
+
         // arrange
         val flow = newFlow("Sleep Flow") {
             launch("org.wikipedia")
@@ -102,7 +131,7 @@ class PicoAutomatorApiTest {
                 val tree = getUiTree()
                 when {
                     tree.hasElement(text("Recent searches:")) ||
-                        tree.hasElement(containsText("Search and read the free encyclopedia")) -> {
+                        tree.hasElement(containsText("Search Wikipedia in more languages")) -> {
                         complete("Complete message")
                     }
 
@@ -120,7 +149,7 @@ class PicoAutomatorApiTest {
         output matches """
             Select device: %s
             Start flow 'Sleep Flow'
-            Step 1: Launch app: org.wikipedia - SUCCESS
+            Step 1: Launch app: package name = org.wikipedia - SUCCESS
             Step 2: Tap on element: [text = Search Wikipedia] - SUCCESS
             Step 3: Sleep 1500 millis - SUCCESS
             Step 4: Get UI tree - SUCCESS
@@ -130,6 +159,8 @@ class PicoAutomatorApiTest {
 
     @Test
     fun `isVisible should work`() {
+        clearStateAndSkipIntro()
+
         // arrange
         val flow = newFlow("Is Visible Flow") {
             launch("org.wikipedia")
@@ -152,7 +183,7 @@ class PicoAutomatorApiTest {
         output matches """
             Select device: %s
             Start flow 'Is Visible Flow'
-            Step 1: Launch app: org.wikipedia - SUCCESS
+            Step 1: Launch app: package name = org.wikipedia - SUCCESS
             Step 2: Is visible: [text = Featured article] - SUCCESS
             Step 3: Tap on element: [text = Search Wikipedia] - SUCCESS
             Step 4: Is visible: [text = Featured article] - SUCCESS
@@ -162,6 +193,8 @@ class PicoAutomatorApiTest {
 
     @Test
     fun `taps should work`() {
+        clearStateAndSkipIntro()
+
         // arrange
         val flow = newFlow("Taps Flow") {
             launch("org.wikipedia")
@@ -184,20 +217,22 @@ class PicoAutomatorApiTest {
         output matches """
             Select device: %s
             Start flow 'Taps Flow'
-            Step 1: Launch app: org.wikipedia - SUCCESS
+            Step 1: Launch app: package name = org.wikipedia - SUCCESS
             Step 2: Assert is visible: [text = Featured article] - SUCCESS
             Step 3: Tap on element: [id = view_featured_article_card_content_container] - SUCCESS
             Step 4: Assert is visible: [id = page_web_view] - SUCCESS
             Step 5: Press back - SUCCESS
             Step 6: Assert is visible: [text = Featured article] - SUCCESS
             Step 7: Long tap on element: [id = view_featured_article_card_content_container] - SUCCESS
-            Step 8: Assert is visible: [[text = Share link],[text = Copy link address]] - SUCCESS
+            Step 8: Assert is visible: [[text = Share link], [text = Copy link address]] - SUCCESS
             Flow 'Taps Flow' finished successfully
         """.trimIndent()
     }
 
     @Test
     fun `assertions should work`() {
+        clearStateAndSkipIntro()
+
         // arrange
         val flow = newFlow("Assertions Flow") {
             launch("org.wikipedia")
@@ -235,13 +270,13 @@ class PicoAutomatorApiTest {
         output matches """
             Select device: emulator-5554
             Start flow 'Assertions Flow'
-            Step 1: Launch app: org.wikipedia - SUCCESS
+            Step 1: Launch app: package name = org.wikipedia - SUCCESS
             Step 2: Assert is visible: [desc = Explore] - SUCCESS
-            Step 3: Assert is visible: [[desc = Explore],[desc = Saved],[desc = Search],[desc = Edits],[desc = More]] - SUCCESS
+            Step 3: Assert is visible: [[desc = Explore], [desc = Saved], [desc = Search], [desc = Edits], [desc = More]] - SUCCESS
             Step 4: Tap on element: [desc = More] - SUCCESS
             Step 5: Tap on element: [text = Settings] - SUCCESS
             Step 6: Assert is not visible: [desc = Explore] - SUCCESS
-            Step 7: Assert is not visible: [[desc = Explore],[desc = Saved],[desc = Search],[desc = Edits],[desc = More]] - SUCCESS
+            Step 7: Assert is not visible: [[desc = Explore], [desc = Saved], [desc = Search], [desc = Edits], [desc = More]] - SUCCESS
             Flow 'Assertions Flow' finished successfully
         """.trimIndent()
     }

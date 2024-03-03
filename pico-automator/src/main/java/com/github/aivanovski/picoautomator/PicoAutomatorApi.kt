@@ -6,7 +6,7 @@ import com.github.aivanovski.picoautomator.domain.entity.ElementReference
 import com.github.aivanovski.picoautomator.domain.entity.UiTreeNode
 
 interface PicoAutomatorApi {
-    fun launch(packageName: String): Either<Exception, Unit>
+    fun launch(packageName: String, isClearState: Boolean = false): Either<Exception, Unit>
     fun assertVisible(element: ElementReference): Either<Exception, Unit>
     fun assertVisible(elements: List<ElementReference>): Either<Exception, Unit>
     fun assertNotVisible(element: ElementReference): Either<Exception, Unit>
