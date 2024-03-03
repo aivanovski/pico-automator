@@ -57,8 +57,8 @@ internal class ApiImpl(
         }
     }
 
-    override fun launch(packageName: String): Either<Exception, Unit> {
-        return runStep(Launch(packageName))
+    override fun launch(packageName: String, isClearState: Boolean): Either<Exception, Unit> {
+        return runStep(Launch(packageName, isClearState = isClearState))
     }
 
     override fun assertVisible(elements: List<ElementReference>): Either<Exception, Unit> {

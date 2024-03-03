@@ -16,7 +16,7 @@ fun List<ElementReference>.toReadableFormat(): String {
         this.first().toReadableFormat()
     } else {
         this.joinToString(
-            separator = ",",
+            separator = ", ",
             prefix = "[",
             postfix = "]",
             transform = { element -> element.toReadableFormat() }
