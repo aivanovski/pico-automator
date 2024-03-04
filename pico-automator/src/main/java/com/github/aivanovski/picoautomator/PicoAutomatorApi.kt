@@ -34,4 +34,5 @@ interface PicoAutomatorApi {
     fun sleep(duration: Duration): Either<Exception, Unit>
     fun fail(message: String)
     fun complete(message: String)
+    fun shell(command: String)
 }
