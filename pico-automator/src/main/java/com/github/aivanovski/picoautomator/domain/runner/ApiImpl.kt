@@ -2,6 +2,7 @@ package com.github.aivanovski.picoautomator.domain.runner
 
 import com.github.aivanovski.picoautomator.PicoAutomatorApi
 import com.github.aivanovski.picoautomator.data.adb.AdbExecutor
+import com.github.aivanovski.picoautomator.data.process.ProcessExecutor
 import com.github.aivanovski.picoautomator.domain.entity.Duration
 import com.github.aivanovski.picoautomator.domain.entity.Duration.Companion.millis
 import com.github.aivanovski.picoautomator.domain.entity.Either
@@ -22,6 +23,7 @@ import com.github.aivanovski.picoautomator.domain.steps.Launch
 import com.github.aivanovski.picoautomator.domain.steps.LongTap
 import com.github.aivanovski.picoautomator.domain.steps.PressBack
 import com.github.aivanovski.picoautomator.domain.steps.PressKey
+import com.github.aivanovski.picoautomator.domain.steps.Shell
 import com.github.aivanovski.picoautomator.domain.steps.Sleep
 import com.github.aivanovski.picoautomator.domain.steps.Tap
 import com.github.aivanovski.picoautomator.domain.steps.WaitForElement
@@ -31,6 +33,7 @@ import com.github.aivanovski.picoautomator.domain.steps.assertions.VisibleAssert
 internal class ApiImpl(
     private val flow: Flow,
     private val adbExecutor: AdbExecutor,
+    private val processExecutor: ProcessExecutor,
     private val maxFlakyStepRepeatCount: Int,
     private val lifecycleListener: FlowLifecycleListener?
 ) : PicoAutomatorApi {
@@ -171,6 +174,10 @@ internal class ApiImpl(
 
     override fun complete(message: String) {
         throw CompleteExecutionException(message)
+    }
+
+    override fun shell(command: String) {
+        runStep(Shell(processExecutor, command))
     }
 
     private fun <T : Any> runStep(

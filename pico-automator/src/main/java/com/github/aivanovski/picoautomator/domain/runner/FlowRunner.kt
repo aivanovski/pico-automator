@@ -56,6 +56,7 @@ class FlowRunner(
         ApiImpl(
             flow = flow,
             adbExecutor = adbDeviceExecutor,
+            processExecutor = processExecutor,
             maxFlakyStepRepeatCount = maxFlakyStepRepeatCount,
             lifecycleListener = createFlowLifecycleListener()
         ).run()

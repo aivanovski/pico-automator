@@ -280,4 +280,35 @@ class PicoAutomatorApiTest {
             Flow 'Assertions Flow' finished successfully
         """.trimIndent()
     }
+
+    @Test
+    fun `shell command should work`() {
+        clearStateAndSkipIntro()
+
+        // arrange
+        val flow = newFlow("Shell Flow") {
+            launch("org.wikipedia")
+            assertVisible(text("Search Wikipedia"))
+
+            shell(command = "adb shell pm clear org.wikipedia")
+
+            launch("org.wikipedia")
+            assertVisible(containsText("The Free Encyclopedia"))
+        }
+
+        // act
+        val output = runAndCaptureOutput(flow)
+
+        // assert
+        output matches """
+            Select device: %s
+            Start flow 'Shell Flow'
+            Step 1: Launch app: package name = org.wikipedia - SUCCESS
+            Step 2: Assert is visible: [text = Search Wikipedia] - SUCCESS
+            Step 3: Shell: adb shell pm clear org.wikipedia - SUCCESS
+            Step 4: Launch app: package name = org.wikipedia - SUCCESS
+            Step 5: Assert is visible: [has text = The Free Encyclopedia] - SUCCESS
+            Flow 'Shell Flow' finished successfully
+        """.trimIndent()
+    }
 }
