@@ -1,24 +1,80 @@
 [versions]
 appVersion = "0.3.0"
 
-kotlinVersion = "1.8.22"
-kotestVersion = "5.5.2"
-junitVersion = "5.5.2"
-mockkVersion = "1.12.3"
-jprocVersion = "2.8.0"
-koinVersion = "3.1.5"
-clojureVersion = "1.11.1"
-shadowJarVersion = "7.0.0"
+androidGradlePlugin = "8.3.1"
+kotlin = "1.8.22"
+ksp = "1.8.22-1.0.11"
+kotest = "5.5.2"
+junit = "5.5.2"
+mockk = "1.12.3"
+jproc = "2.8.0"
+koin = "3.5.0"
+clojure = "1.11.1"
+shadowJar = "7.0.0"
+ktor = "2.3.11"
+logback = "1.5.6"
+timber = "5.0.1"
+multidex = "2.0.1"
+room = "2.6.1"
+moshi = "1.15.1"
+junit4 = "4.13.2"
+coreKtx = "1.13.1"
+androidxJunit = "1.1.5"
+espressoCore = "3.5.1"
+lifecycleRuntimeKtx = "2.8.0"
+activityCompose = "1.9.0"
+composeBom = "2023.08.00"
+serializationJson = "1.6.3"
+
+# TODO: don't need
+uiautomator = "2.3.0"
 
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinVersion" }
-shadowjar = { id = "com.github.johnrengelman.shadow", version.ref = "shadowJarVersion" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+shadowjar = { id = "com.github.johnrengelman.shadow", version.ref = "shadowJar" }
+androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 [libraries]
-kotest-assertions = { module = "io.kotest:kotest-assertions-core-jvm", version.ref = "kotestVersion" }
-kotest-runner = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "kotestVersion" }
-junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junitVersion" }
-mockk = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
-jproc = { module = "org.buildobjects:jproc", version.ref = "jprocVersion" }
-clojure = { module = "org.clojure:clojure", version.ref = "clojureVersion" }
-koin = { module = "io.insert-koin:koin-core", version.ref = "koinVersion" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlinx-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serializationJson"}
+kotest-assertions = { module = "io.kotest:kotest-assertions-core-jvm", version.ref = "kotest" }
+kotest-runner = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "kotest" }
+junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+jproc = { module = "org.buildobjects:jproc", version.ref = "jproc" }
+clojure = { module = "org.clojure:clojure", version.ref = "clojure" }
+koin = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-server-websockets = { module = "io.ktor:ktor-server-websockets", version.ref = "ktor" }
+ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-test = { module = "androidx.room:room-testing", version.ref = "room" }
+moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }

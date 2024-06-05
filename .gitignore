@@ -16,6 +16,7 @@ build/
 .gradle
 tmp/
 *.iml
+local.properties
 
 # Clojure files
 .cpcache/
@@ -23,3 +24,4 @@ tmp/
 .lsp
 .nrepl-port
 pom.xml
+*/build

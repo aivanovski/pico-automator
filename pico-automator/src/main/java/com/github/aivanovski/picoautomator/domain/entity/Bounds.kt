@@ -6,7 +6,6 @@ data class Bounds(
     val right: Int,
     val bottom: Int
 ) {
-
     fun centerX(): Int = (left + right) / 2
     fun centerY(): Int = (top + bottom) / 2
 }

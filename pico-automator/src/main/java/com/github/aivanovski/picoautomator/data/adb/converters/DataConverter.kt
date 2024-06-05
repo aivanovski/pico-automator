@@ -6,7 +6,7 @@ import com.github.aivanovski.picoautomator.domain.entity.UiTreeNode
 import com.github.aivanovski.picoautomator.util.isDigitOnly
 import java.util.LinkedList
 
-internal fun UiNodeEntity.convertToUiNode(): UiTreeNode {
+fun UiNodeEntity.convertToUiNode(): UiTreeNode {
     val next = LinkedList<Pair<UiTreeNode?, UiNodeEntity>>()
     next.add(Pair(null, this))
 

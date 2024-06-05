@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlinSerialization)
     id("java-library")
     id("maven-publish")
     id("jacoco")
@@ -53,6 +54,7 @@ dependencies {
     testImplementation(libs.mockk)
 
     implementation(libs.jproc)
+    implementation(libs.kotlinx.json)
 }
 
 publishing {

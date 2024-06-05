@@ -1,16 +1,23 @@
 package com.github.aivanovski.picoautomator.domain.entity
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 sealed class ElementReference {
 
+    @Serializable
     data class Id(val id: String) : ElementReference()
 
+    @Serializable
     data class Text(val text: String) : ElementReference()
 
+    @Serializable
     data class ContainsText(
         val text: String,
         val ignoreCase: Boolean = true
     ) : ElementReference()
 
+    @Serializable
     data class ContentDescription(
         val contentDescription: String
     ) : ElementReference()

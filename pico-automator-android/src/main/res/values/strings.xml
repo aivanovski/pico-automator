@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">pico-automator-android</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="notification_channel">Driver service</string>
+    <string name="notification_channel_description">Driver for </string>
+
+    <string name="accessibility_service_name">UI Accessibility Service</string>
+    <string name="accessibility_service_description">UI Accessibility Service for testing</string>
+</resources>

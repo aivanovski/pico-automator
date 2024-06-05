@@ -4,7 +4,7 @@ import com.github.aivanovski.picoautomator.domain.entity.ElementReference
 import com.github.aivanovski.picoautomator.domain.entity.UiTreeNode
 import java.util.LinkedList
 
-internal fun UiTreeNode.matches(element: ElementReference): Boolean {
+fun UiTreeNode.matches(element: ElementReference): Boolean {
     return when (element) {
         is ElementReference.Id -> this.resourceId == "$packageName:id/${element.id}"
         is ElementReference.Text -> this.text == element.text
@@ -17,7 +17,7 @@ internal fun UiTreeNode.matches(element: ElementReference): Boolean {
     }
 }
 
-internal fun UiTreeNode.traverse(predicate: (UiTreeNode) -> Boolean): List<UiTreeNode> {
+fun UiTreeNode.traverse(predicate: (UiTreeNode) -> Boolean): List<UiTreeNode> {
     val result = mutableListOf<UiTreeNode>()
 
     val nodes = LinkedList<UiTreeNode>()
