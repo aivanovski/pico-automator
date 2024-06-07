@@ -40,4 +40,15 @@ sealed class Either<out Error : Any?, out Value : Any?> {
             Left(unwrapError())
         }
     }
+
+    inline fun <NewError, NewValue> map(
+        transformLeft: (Error) -> NewError,
+        transformRight: (Value) -> NewValue
+    ): Either<NewError, NewValue> {
+        return if (isRight()) {
+            Right(transformRight.invoke(unwrap()))
+        } else {
+            Left(transformLeft.invoke(unwrapError()))
+        }
+    }
 }

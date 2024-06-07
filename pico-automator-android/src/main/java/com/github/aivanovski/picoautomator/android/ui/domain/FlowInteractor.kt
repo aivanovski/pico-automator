@@ -42,9 +42,6 @@ class FlowInteractor(
             Either.Right(Unit)
         }
 
-    fun onStepStarted(step: StepInfo) {
-    }
-
     suspend fun onStepFinished(
         step: StepInfo,
         result: Either<Exception, Any>

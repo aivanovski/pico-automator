@@ -13,5 +13,6 @@ include(
     ":pico-automator-cli",
     ":tests:tests-kotlin",
     ":pico-automator-android",
-    ":pico-automator-backend"
+    ":pico-automator-web",
+    ":pico-automator-web-api"
 )
