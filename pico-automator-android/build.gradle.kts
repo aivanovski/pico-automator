@@ -73,6 +73,10 @@ dependencies {
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
 
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Android
     implementation(libs.androidx.multidex)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -82,7 +86,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    // implementation(libs.androidx.uiautomator)
+
+    // Timber
     implementation(libs.timber)
 
     // Koin
@@ -94,16 +99,15 @@ dependencies {
     kapt(libs.room.compiler)
     androidTestImplementation(libs.room.test)
 
-    // Moshi
-    implementation(libs.moshi)
-    implementation(libs.kotlin.reflect)
+    // Network
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.client.logging)
 
     // Json
     implementation(libs.kotlinx.json)
 
     // Testing API
     implementation(project(":pico-automator"))
-
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(project(":pico-automator-web-api"))
 }

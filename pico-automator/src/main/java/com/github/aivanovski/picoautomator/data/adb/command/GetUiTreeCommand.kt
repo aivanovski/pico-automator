@@ -17,7 +17,7 @@ internal class GetUiTreeCommand : AdbCommand<UiTreeNode> {
     override fun execute(environment: AdbEnvironment): Either<Exception, UiTreeNode> {
         val getDumpResult = getDumpFile(environment)
         if (getDumpResult.isLeft()) {
-            return getDumpResult.mapToLeft()
+            return getDumpResult.toLeft()
         }
 
         return parseDumpFile(getDumpResult.unwrap())
@@ -44,7 +44,7 @@ internal class GetUiTreeCommand : AdbCommand<UiTreeNode> {
         for (attemptIdx in attemptRange) {
             val dumpResult = environment.run("shell uiautomator dump")
             if (dumpResult.isLeft()) {
-                return dumpResult.mapToLeft()
+                return dumpResult.toLeft()
             }
 
             val dumpMessage = dumpResult.unwrap()

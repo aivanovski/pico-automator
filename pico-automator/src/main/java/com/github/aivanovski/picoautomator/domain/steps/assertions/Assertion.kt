@@ -5,7 +5,6 @@ import com.github.aivanovski.picoautomator.domain.entity.ElementReference
 import com.github.aivanovski.picoautomator.domain.entity.UiTreeNode
 
 interface Assertion {
-
     fun describe(): String
     fun assert(
         uiRoot: UiTreeNode,

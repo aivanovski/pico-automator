@@ -1,0 +1,7 @@
+- name: all.yaml
+
+- runFlow: about_open-screen.yaml
+- runFlow: about_navigate-back.yaml
+- runFlow: new_db_create-new.yaml
+- runFlow: unlock_open-database.yaml
+- runFlow: unlock_remove-file.yaml

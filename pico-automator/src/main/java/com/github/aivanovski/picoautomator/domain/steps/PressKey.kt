@@ -6,7 +6,7 @@ import com.github.aivanovski.picoautomator.domain.entity.Either
 
 internal class PressKey(
     private val keyCode: String
-) : ExecutableFlowStep<Unit> {
+) : ExecutableStepCommand<Unit> {
 
     override fun describe(): String = "Press key: [$keyCode]"
 

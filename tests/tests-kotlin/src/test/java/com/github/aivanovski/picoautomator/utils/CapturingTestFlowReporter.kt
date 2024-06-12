@@ -4,7 +4,7 @@ import com.github.aivanovski.picoautomator.domain.entity.Device
 import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.domain.entity.Flow
 import com.github.aivanovski.picoautomator.domain.runner.FlowLifecycleListener
-import com.github.aivanovski.picoautomator.domain.steps.FlowStep
+import com.github.aivanovski.picoautomator.domain.steps.StepCommand
 import com.github.aivanovski.picoautomator.presentation.OutputWriter
 import com.github.aivanovski.picoautomator.presentation.StandardOutputFlowReporter
 import com.github.aivanovski.picoautomator.presentation.StandardOutputWriter
@@ -35,13 +35,13 @@ class CapturingTestFlowReporter(
         onFinished.invoke()
     }
 
-    override fun onStepStarted(flow: Flow, step: FlowStep, stepIndex: Int, repeatCount: Int) {
+    override fun onStepStarted(flow: Flow, step: StepCommand, stepIndex: Int, repeatCount: Int) {
         reporter.onStepStarted(flow, step, stepIndex, repeatCount)
     }
 
     override fun onStepFinished(
         flow: Flow,
-        step: FlowStep,
+        step: StepCommand,
         stepIndex: Int,
         result: Either<Exception, Any>
     ) {

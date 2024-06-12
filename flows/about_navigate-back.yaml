@@ -1,0 +1,16 @@
+- name: about_navigate-back.yaml
+
+- sendBroadcast: com.ivanovsky.passnotes/com.ivanovsky.passnotes.domain.test.TestDataBroadcastReceiver
+  data:
+    - key: isResetAppData
+      value: true
+
+- launch: com.ivanovsky.passnotes
+- assertVisible: No databases
+- tapOn:
+    contentDescription: Navigate up
+- tapOn: About
+- assertVisible:
+    hasText: KeePassVault is client for KeePass
+- pressKey: Back
+- assertVisible: No databases

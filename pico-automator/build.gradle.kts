@@ -55,6 +55,10 @@ dependencies {
 
     implementation(libs.jproc)
     implementation(libs.kotlinx.json)
+
+    // Yaml
+    implementation(libs.jackson.kotlin)
+    implementation(libs.jackson.yaml)
 }
 
 publishing {

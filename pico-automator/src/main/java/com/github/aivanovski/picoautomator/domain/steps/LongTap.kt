@@ -12,14 +12,14 @@ import com.github.aivanovski.picoautomator.extensions.toReadableFormat
 
 internal class LongTap(
     private val element: ElementReference
-) : ExecutableFlowStep<Unit>, FlakyFlowStep {
+) : ExecutableStepCommand<Unit>, FlakyFlowStep {
 
     override fun describe(): String = "Long tap on element: ${element.toReadableFormat()}"
 
     override fun execute(adbExecutor: AdbExecutor): Either<Exception, Unit> {
         val getUiTreeResult = adbExecutor.execute(GetUiTreeCommand())
         if (getUiTreeResult.isLeft()) {
-            return getUiTreeResult.mapToLeft()
+            return getUiTreeResult.toLeft()
         }
 
         val rootNode = getUiTreeResult.unwrap()

@@ -1,0 +1,14 @@
+- name: about_open-screen.yaml
+
+- sendBroadcast: com.ivanovsky.passnotes/com.ivanovsky.passnotes.domain.test.TestDataBroadcastReceiver
+  data:
+    - key: isResetAppData
+      value: true
+
+- launch: com.ivanovsky.passnotes
+- assertVisible: KeePassVault
+- tapOn:
+    contentDescription: Navigate up
+- tapOn: About
+- assertVisible:
+    hasText: KeePassVault is client for KeePass

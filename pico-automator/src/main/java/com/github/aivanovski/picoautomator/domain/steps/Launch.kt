@@ -9,7 +9,7 @@ import com.github.aivanovski.picoautomator.domain.entity.Either
 internal class Launch(
     private val packageName: String,
     private val isClearState: Boolean
-) : ExecutableFlowStep<Unit> {
+) : ExecutableStepCommand<Unit> {
 
     override fun describe(): String {
         return StringBuilder().apply {

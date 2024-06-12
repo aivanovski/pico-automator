@@ -11,7 +11,7 @@ internal class StartApplicationCommand(
     override fun execute(environment: AdbEnvironment): Either<Exception, Unit> {
         val packageDumpResult = environment.run("shell dumpsys package")
         if (packageDumpResult.isLeft()) {
-            return packageDumpResult.mapToLeft()
+            return packageDumpResult.toLeft()
         }
 
         val dump = packageDumpResult.unwrap()

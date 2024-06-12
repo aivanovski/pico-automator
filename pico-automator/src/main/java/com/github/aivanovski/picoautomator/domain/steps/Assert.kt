@@ -13,7 +13,7 @@ internal class Assert(
     private val parentElement: ElementReference?,
     private val elements: List<ElementReference>,
     private val assertion: Assertion
-) : ExecutableFlowStep<Unit>, FlakyFlowStep {
+) : ExecutableStepCommand<Unit>, FlakyFlowStep {
 
     override fun describe(): String {
         return when {
@@ -33,7 +33,7 @@ internal class Assert(
     override fun execute(adbExecutor: AdbExecutor): Either<Exception, Unit> {
         val getUiTreeResult = adbExecutor.execute(GetUiTreeCommand())
         if (getUiTreeResult.isLeft()) {
-            return getUiTreeResult.mapToLeft()
+            return getUiTreeResult.toLeft()
         }
 
         val rootNote = getUiTreeResult.unwrap()

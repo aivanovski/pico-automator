@@ -1,5 +1,7 @@
 package com.github.aivanovski.picoautomator.domain.entity
 
+import java.lang.Error
+
 sealed class Either<out Error : Any?, out Value : Any?> {
 
     data class Left<Error>(val error: Error) : Either<Error, Nothing>()
@@ -21,7 +23,7 @@ sealed class Either<out Error : Any?, out Value : Any?> {
 
     fun unwrapError(): Error = (this as Left).error
 
-    fun <E> mapToLeft(): Left<E> {
+    fun <E> toLeft(): Left<E> {
         return Left(unwrapError() as E)
     }
 
@@ -41,14 +43,22 @@ sealed class Either<out Error : Any?, out Value : Any?> {
         }
     }
 
-    inline fun <NewError, NewValue> map(
-        transformLeft: (Error) -> NewError,
-        transformRight: (Value) -> NewValue
-    ): Either<NewError, NewValue> {
-        return if (isRight()) {
-            Right(transformRight.invoke(unwrap()))
+    fun <NewError> mapError(transform: (Error) -> NewError): Either<NewError, Value> {
+        return if (isLeft()) {
+            Left(transform(unwrapError()))
         } else {
-            Left(transformLeft.invoke(unwrapError()))
+            Right(unwrap())
+        }
+    }
+
+    companion object {
+
+        fun <Error> left(error: Error): Left<Error> {
+            return Left(error)
+        }
+
+        fun <Value> right(value: Value): Right<Value> {
+            return Right(value)
         }
     }
 }

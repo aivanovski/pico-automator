@@ -3,7 +3,7 @@ package com.github.aivanovski.picoautomator.domain.runner
 import com.github.aivanovski.picoautomator.domain.entity.Device
 import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.domain.entity.Flow
-import com.github.aivanovski.picoautomator.domain.steps.FlowStep
+import com.github.aivanovski.picoautomator.domain.steps.StepCommand
 
 interface FlowLifecycleListener {
 
@@ -23,14 +23,14 @@ interface FlowLifecycleListener {
 
     fun onStepStarted(
         flow: Flow,
-        step: FlowStep,
+        step: StepCommand,
         stepIndex: Int,
         repeatCount: Int
     )
 
     fun onStepFinished(
         flow: Flow,
-        step: FlowStep,
+        step: StepCommand,
         stepIndex: Int,
         result: Either<Exception, Any>
     )

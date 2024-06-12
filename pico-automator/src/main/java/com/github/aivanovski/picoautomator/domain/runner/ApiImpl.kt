@@ -14,7 +14,7 @@ import com.github.aivanovski.picoautomator.domain.entity.exception.ExecutionExce
 import com.github.aivanovski.picoautomator.domain.entity.exception.FailedStepException
 import com.github.aivanovski.picoautomator.domain.entity.exception.StopExecutionException
 import com.github.aivanovski.picoautomator.domain.steps.Assert
-import com.github.aivanovski.picoautomator.domain.steps.ExecutableFlowStep
+import com.github.aivanovski.picoautomator.domain.steps.ExecutableStepCommand
 import com.github.aivanovski.picoautomator.domain.steps.FlakyFlowStep
 import com.github.aivanovski.picoautomator.domain.steps.GetUiTree
 import com.github.aivanovski.picoautomator.domain.steps.InputText
@@ -38,7 +38,7 @@ internal class ApiImpl(
     private val lifecycleListener: FlowLifecycleListener?
 ) : PicoAutomatorApi {
 
-    private val steps = mutableListOf<Pair<ExecutableFlowStep<Any>, List<Either<Exception, Any>>>>()
+    private val steps = mutableListOf<Pair<ExecutableStepCommand<Any>, List<Either<Exception, Any>>>>()
     private var stepIndex = 0
 
     fun run() {
@@ -181,7 +181,7 @@ internal class ApiImpl(
     }
 
     private fun <T : Any> runStep(
-        step: ExecutableFlowStep<T>
+        step: ExecutableStepCommand<T>
     ): Either<Exception, T> {
         val results = mutableListOf<Either<Exception, T>>()
 
@@ -221,7 +221,7 @@ internal class ApiImpl(
     }
 
     private fun shouldRepeatStep(
-        step: ExecutableFlowStep<Any>,
+        step: ExecutableStepCommand<Any>,
         result: Either<Exception, Any>,
         repeatCount: Int
     ): Boolean {

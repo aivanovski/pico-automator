@@ -1,0 +1,18 @@
+- name: unlock_remove-file.yaml
+
+- sendBroadcast: com.ivanovsky.passnotes/com.ivanovsky.passnotes.domain.test.TestDataBroadcastReceiver
+  data:
+    - key: isResetAppData
+      value: true
+
+- sendBroadcast: com.ivanovsky.passnotes/com.ivanovsky.passnotes.domain.test.TestDataBroadcastReceiver
+  data:
+    - key: fakeFileName
+      value: passwords.kdbx
+
+- launch: com.ivanovsky.passnotes
+- assertVisible: content://fakefs.com/demo/passwords.kdbx
+- assertNotVisible: Remove
+- longTapOn: content://fakefs.com/demo/passwords.kdbx
+- tapOn: Remove
+- assertVisible: No databases

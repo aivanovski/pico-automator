@@ -11,7 +11,7 @@ internal class GetDevicesCommand : AdbCommand<List<Device>> {
     override fun execute(environment: AdbEnvironment): Either<Exception, List<Device>> {
         val devicesResult = environment.run("devices")
         if (devicesResult.isLeft()) {
-            return devicesResult.mapToLeft()
+            return devicesResult.toLeft()
         }
 
         val devices = devicesResult.unwrap()

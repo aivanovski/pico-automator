@@ -7,7 +7,7 @@ import com.github.aivanovski.picoautomator.data.process.ProcessExecutor
 import com.github.aivanovski.picoautomator.domain.entity.Device
 import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.domain.entity.Flow
-import com.github.aivanovski.picoautomator.domain.steps.FlowStep
+import com.github.aivanovski.picoautomator.domain.steps.StepCommand
 
 class FlowRunner(
     private val maxFlakyStepRepeatCount: Int = MAX_REPEAT_COUNT
@@ -32,7 +32,7 @@ class FlowRunner(
         val device = if (lastDevice == null || !isUsePreviouslySelectedDevice) {
             val selectDeviceResult = selectDevice()
             if (selectDeviceResult.isLeft()) {
-                listeners.forEach { it.onFlowFinished(flow, selectDeviceResult.mapToLeft()) }
+                listeners.forEach { it.onFlowFinished(flow, selectDeviceResult.toLeft()) }
                 return
             }
 
@@ -79,7 +79,7 @@ class FlowRunner(
     private fun selectDevice(): Either<Exception, Device> {
         val getDevicesResult = adbExecutor.execute(GetDevicesCommand())
         if (getDevicesResult.isLeft()) {
-            return getDevicesResult.mapToLeft()
+            return getDevicesResult.toLeft()
         }
 
         val devices = getDevicesResult.unwrap()
@@ -106,7 +106,7 @@ class FlowRunner(
 
             override fun onStepStarted(
                 flow: Flow,
-                step: FlowStep,
+                step: StepCommand,
                 stepIndex: Int,
                 repeatCount: Int
             ) {
@@ -115,7 +115,7 @@ class FlowRunner(
 
             override fun onStepFinished(
                 flow: Flow,
-                step: FlowStep,
+                step: StepCommand,
                 stepIndex: Int,
                 result: Either<Exception, Any>
             ) {

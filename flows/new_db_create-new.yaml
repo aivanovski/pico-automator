@@ -1,0 +1,29 @@
+- name: new_db_create-new.yaml
+
+- sendBroadcast: com.ivanovsky.passnotes/com.ivanovsky.passnotes.domain.test.TestDataBroadcastReceiver
+  data:
+    - key: isResetAppData
+      value: true
+
+- launch: com.ivanovsky.passnotes
+- assertVisible: No databases
+- tapOn:
+    contentDescription: Add entry
+- tapOn: New file
+- tapOn:
+    hasText: Storage type
+- tapOn: Private app storage
+- tapOn: File name
+- inputText: passwords
+- tapOn: Password
+- inputText: abc123
+- tapOn: Confirm
+- inputText: abc123
+- tapOn:
+    contentDescription: Done
+- waitUntil:
+    text: DISABLE
+    step: 1
+    timeout: 10
+- tapOn: DISABLE
+- assertVisible: Database

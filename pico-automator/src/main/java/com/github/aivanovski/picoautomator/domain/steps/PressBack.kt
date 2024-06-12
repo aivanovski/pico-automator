@@ -4,7 +4,7 @@ import com.github.aivanovski.picoautomator.data.adb.AdbExecutor
 import com.github.aivanovski.picoautomator.data.adb.command.SendKeyEventCommand
 import com.github.aivanovski.picoautomator.domain.entity.Either
 
-internal class PressBack : ExecutableFlowStep<Unit> {
+internal class PressBack : ExecutableStepCommand<Unit> {
 
     override fun describe(): String = "Press back"
 

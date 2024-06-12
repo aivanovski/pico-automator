@@ -18,7 +18,7 @@ class RunTestsUseCase(
     ): Either<Exception, TestExecutionResult> {
         val setupEnvironmentResult = setupEnvironmentUseCase.setupClojureEnvironment(loadFiles)
         if (setupEnvironmentResult.isLeft()) {
-            return setupEnvironmentResult.mapToLeft()
+            return setupEnvironmentResult.toLeft()
         }
 
         val results = mutableListOf<Either<Exception, Unit>>()

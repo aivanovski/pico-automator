@@ -20,7 +20,7 @@ class MainInteractor(
     fun process(unparsedArgs: Array<String>): Either<Exception, Unit> {
         val parseArgsResult = argumentParser.parse(unparsedArgs)
         if (parseArgsResult.isLeft()) {
-            return parseArgsResult.mapToLeft()
+            return parseArgsResult.toLeft()
         }
 
         val args = parseArgsResult.unwrap()
@@ -41,7 +41,7 @@ class MainInteractor(
             outputFormat = outputFormat
         )
         if (runTestsResult.isLeft()) {
-            return runTestsResult.mapToLeft()
+            return runTestsResult.toLeft()
         }
 
         val testsResult = runTestsResult.unwrap()

@@ -7,7 +7,7 @@ import com.github.aivanovski.picoautomator.domain.entity.Either
 internal class Shell(
     private val processExecutor: ProcessExecutor,
     private val command: String
-) : ExecutableFlowStep<Unit> {
+) : ExecutableStepCommand<Unit> {
 
     override fun describe(): String {
         return "Shell: $command"

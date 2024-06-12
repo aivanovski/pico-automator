@@ -5,13 +5,14 @@ import com.github.aivanovski.picoautomator.domain.entity.Duration
 import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.domain.entity.ElementReference
 import com.github.aivanovski.picoautomator.extensions.hasElement
+import com.github.aivanovski.picoautomator.extensions.toMilliseconds
 import com.github.aivanovski.picoautomator.extensions.toReadableFormat
 
 internal class WaitForElement(
     private val element: ElementReference,
     private val timeout: Duration,
     private val step: Duration
-) : ExecutableFlowStep<Unit> {
+) : ExecutableStepCommand<Unit> {
 
     override fun describe(): String {
         return String.format(
@@ -25,15 +26,15 @@ internal class WaitForElement(
     override fun execute(adbExecutor: AdbExecutor): Either<Exception, Unit> {
         val startTime = System.currentTimeMillis()
 
-        while ((System.currentTimeMillis() - startTime) <= timeout.milliseconds) {
+        while ((System.currentTimeMillis() - startTime) <= timeout.toMilliseconds()) {
             val sleepResult = Sleep(step).execute(adbExecutor)
             if (sleepResult.isLeft()) {
-                return sleepResult.mapToLeft()
+                return sleepResult.toLeft()
             }
 
             val getUiTreeResult = GetUiTree().execute(adbExecutor)
             if (getUiTreeResult.isLeft()) {
-                return getUiTreeResult.mapToLeft()
+                return getUiTreeResult.toLeft()
             }
 
             val rootNode = getUiTreeResult.unwrap()

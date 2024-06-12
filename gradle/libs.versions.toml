@@ -2,7 +2,7 @@
 appVersion = "0.3.0"
 
 androidGradlePlugin = "8.3.1"
-kotlin = "1.9.22"
+kotlin = "1.8.22"
 ksp = "1.8.22-1.0.11"
 kotest = "5.5.2"
 junit = "5.5.2"
@@ -16,7 +16,6 @@ logback = "1.5.6"
 timber = "5.0.1"
 multidex = "2.0.1"
 room = "2.6.1"
-moshi = "1.15.1"
 junit4 = "4.13.2"
 coreKtx = "1.13.1"
 androidxJunit = "1.1.5"
@@ -25,6 +24,7 @@ lifecycleRuntimeKtx = "2.8.0"
 activityCompose = "1.9.0"
 composeBom = "2023.08.00"
 serializationJson = "1.6.3"
+jackson = "2.15.2"
 
 # TODO: don't need
 uiautomator = "2.3.0"
@@ -72,14 +72,17 @@ ktor-server-websockets = { module = "io.ktor:ktor-server-websockets", version.re
 ktor-server-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
 ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
 ktor-server-authjwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-test = { module = "androidx.room:room-testing", version.ref = "room" }
-moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
+jackson-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson" }

@@ -40,7 +40,7 @@ class ArgumentParser(
                         val file = queue.poll()
                         val checkPathResult = checkPath(file)
                         if (checkPathResult.isLeft()) {
-                            return checkPathResult.mapToLeft()
+                            return checkPathResult.toLeft()
                         }
 
                         loadFiles.add(file)
@@ -54,7 +54,7 @@ class ArgumentParser(
             } else {
                 val checkPathResult = checkPath(arg)
                 if (checkPathResult.isLeft()) {
-                    return checkPathResult.mapToLeft()
+                    return checkPathResult.toLeft()
                 }
 
                 files.add(arg)

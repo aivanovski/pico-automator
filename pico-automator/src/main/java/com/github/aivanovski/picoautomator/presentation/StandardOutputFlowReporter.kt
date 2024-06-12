@@ -4,7 +4,7 @@ import com.github.aivanovski.picoautomator.domain.entity.Device
 import com.github.aivanovski.picoautomator.domain.entity.Either
 import com.github.aivanovski.picoautomator.domain.entity.Flow
 import com.github.aivanovski.picoautomator.domain.runner.FlowLifecycleListener
-import com.github.aivanovski.picoautomator.domain.steps.FlowStep
+import com.github.aivanovski.picoautomator.domain.steps.StepCommand
 
 class StandardOutputFlowReporter(
     private val writer: OutputWriter,
@@ -42,7 +42,7 @@ class StandardOutputFlowReporter(
         }
     }
 
-    override fun onStepStarted(flow: Flow, step: FlowStep, stepIndex: Int, repeatCount: Int) {
+    override fun onStepStarted(flow: Flow, step: StepCommand, stepIndex: Int, repeatCount: Int) {
         if (repeatCount == 0) {
             writer.print("Step ${stepIndex + 1}: ${step.describe()}")
         } else {
@@ -52,7 +52,7 @@ class StandardOutputFlowReporter(
 
     override fun onStepFinished(
         flow: Flow,
-        step: FlowStep,
+        step: StepCommand,
         stepIndex: Int,
         result: Either<Exception, Any>
     ) {

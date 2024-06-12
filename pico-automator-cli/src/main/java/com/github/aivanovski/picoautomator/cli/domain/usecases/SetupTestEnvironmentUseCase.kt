@@ -18,13 +18,13 @@ class SetupTestEnvironmentUseCase(
     ): Either<Exception, Unit> {
         val loadApiResult = loadApiForPicoAutomator()
         if (loadApiResult.isLeft()) {
-            return loadApiResult.mapToLeft()
+            return loadApiResult.toLeft()
         }
 
         for (file in loadFiles) {
             val loadFileResult = loadFile(file)
             if (loadFileResult.isLeft()) {
-                return loadFileResult.mapToLeft()
+                return loadFileResult.toLeft()
             }
         }
 
@@ -34,12 +34,12 @@ class SetupTestEnvironmentUseCase(
     private fun loadApiForPicoAutomator(): Either<Exception, Unit> {
         val readUtilsResult = resourceProvider.read("picoautomator/utils.clj")
         if (readUtilsResult.isLeft()) {
-            return readUtilsResult.mapToLeft()
+            return readUtilsResult.toLeft()
         }
 
         val readCoreResult = resourceProvider.read("picoautomator/core.clj")
         if (readCoreResult.isLeft()) {
-            return readCoreResult.mapToLeft()
+            return readCoreResult.toLeft()
         }
 
         val utilsContent = transformer.replacePrintStackTrace(readUtilsResult.unwrap())
@@ -47,12 +47,12 @@ class SetupTestEnvironmentUseCase(
 
         val loadUtilResult = engine.load(utilsContent)
         if (loadUtilResult.isLeft()) {
-            return loadUtilResult.mapToLeft()
+            return loadUtilResult.toLeft()
         }
 
         val loadCoreResult = engine.load(coreContent)
         if (loadCoreResult.isLeft()) {
-            return loadCoreResult.mapToLeft()
+            return loadCoreResult.toLeft()
         }
 
         return Either.Right(Unit)
@@ -61,7 +61,7 @@ class SetupTestEnvironmentUseCase(
     private fun loadFile(path: String): Either<Exception, Unit> {
         val readFileResult = fileProvider.read(path)
         if (readFileResult.isLeft()) {
-            return readFileResult.mapToLeft()
+            return readFileResult.toLeft()
         }
 
         val fileContent = readFileResult.unwrap()

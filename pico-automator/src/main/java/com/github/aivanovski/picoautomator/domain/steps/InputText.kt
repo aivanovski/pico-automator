@@ -12,7 +12,7 @@ import com.github.aivanovski.picoautomator.extensions.toReadableFormat
 internal class InputText(
     private val text: String,
     private val element: ElementReference?
-) : ExecutableFlowStep<Unit> {
+) : ExecutableStepCommand<Unit> {
 
     override fun describe(): String {
         return if (element != null) {
@@ -29,7 +29,7 @@ internal class InputText(
 
         val getUiTreeResult = adbExecutor.execute(GetUiTreeCommand())
         if (getUiTreeResult.isLeft()) {
-            return getUiTreeResult.mapToLeft()
+            return getUiTreeResult.toLeft()
         }
 
         val uiRoot = getUiTreeResult.unwrap()

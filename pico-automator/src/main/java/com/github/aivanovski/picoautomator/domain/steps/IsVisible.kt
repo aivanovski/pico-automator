@@ -11,7 +11,7 @@ import com.github.aivanovski.picoautomator.extensions.toReadableFormat
 internal class IsVisible(
     private val parentElement: ElementReference?,
     private val elements: List<ElementReference>
-) : ExecutableFlowStep<Boolean>, FlakyFlowStep {
+) : ExecutableStepCommand<Boolean>, FlakyFlowStep {
 
     override fun describe(): String {
         return when {
@@ -30,7 +30,7 @@ internal class IsVisible(
     override fun execute(adbExecutor: AdbExecutor): Either<Exception, Boolean> {
         val getUiTreeResult = GetUiTree().execute(adbExecutor)
         if (getUiTreeResult.isLeft()) {
-            return getUiTreeResult.mapToLeft()
+            return getUiTreeResult.toLeft()
         }
 
         val rootNode = getUiTreeResult.unwrap()

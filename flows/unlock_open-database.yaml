@@ -1,0 +1,24 @@
+- name: unlock_open-database.yaml
+
+- sendBroadcast: com.ivanovsky.passnotes/com.ivanovsky.passnotes.domain.test.TestDataBroadcastReceiver
+  data:
+    - key: isResetAppData
+      value: true
+
+- sendBroadcast: com.ivanovsky.passnotes/com.ivanovsky.passnotes.domain.test.TestDataBroadcastReceiver
+  data:
+    - key: fakeFileName
+      value: passwords.kdbx
+
+- launch: com.ivanovsky.passnotes
+- assertVisible: passwords.kdbx
+- tapOn: Password
+- inputText: abc123
+- tapOn:
+    contentDescription: unlockButton
+- waitUntil:
+    text: DISABLE
+    step: 1
+    timeout: 10
+- tapOn: DISABLE
+- assertVisible: Database
