@@ -94,7 +94,7 @@ jobs:
           submodules: 'true'
 
       - name: Get coverage.csv
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: coverage.csv
           path: artifacts
