@@ -21,6 +21,8 @@ sealed class Either<out Error : Any?, out Value : Any?> {
 
     fun unwrapError(): Error = (this as Left).error
 
+    fun unwrapErrorOrNull(): Error? = (this as? Left)?.error
+
     fun <E> mapToLeft(): Left<E> {
         return Left(unwrapError() as E)
     }
