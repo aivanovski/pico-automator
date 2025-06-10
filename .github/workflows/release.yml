@@ -1,4 +1,4 @@
-name: Publish to Github and Google Play
+name: Publish to Github
 
 on:
   push:
@@ -45,4 +45,5 @@ jobs:
         with:
           generate_release_notes: true
           prerelease: true
-          files: ./pico-automator.jar
+          files: |
+            ./pico-automator.jar
