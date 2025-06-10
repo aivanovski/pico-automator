@@ -45,7 +45,7 @@ jobs:
         run: ./gradlew pico-automator:test pico-automator-cli:test
 
       - name: Upload coverage.csv file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage.csv
           path: pico-automator/build/reports/coverage/coverage.csv
@@ -78,7 +78,7 @@ jobs:
           mv pico-automator-cli/build/libs/pico-automator-cli-${{env.VERSION}}-all.jar pico-automator.jar
 
       - name: Store jar file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pico-automator.jar
           path: pico-automator.jar
